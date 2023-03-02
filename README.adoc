@@ -1,1 +1,1 @@
-An example script for computing energetically-optimal gaits of the compass-gait walker.
+An example script for computing energetically optimal gaits of the compass-gait walker.
