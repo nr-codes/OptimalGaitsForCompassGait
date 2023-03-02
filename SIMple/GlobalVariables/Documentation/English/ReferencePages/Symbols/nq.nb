@@ -1,0 +1,501 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 11.3' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     18308,        493]
+NotebookOptionsPosition[     15051,        418]
+NotebookOutlinePosition[     16137,        448]
+CellTagsIndexPosition[     16094,        445]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[GridBox[{
+   {GridBox[{
+      {
+       ItemBox[Cell[BoxData[
+         RowBox[{
+          TemplateBox[{8},
+           "Spacer1"], Cell["SIMPLE PACKAGE SYMBOL", "PacletNameCell",
+           TextAlignment->Center,ExpressionUUID->
+           "bbbdefcc-d1ed-4001-9a7d-a831cb8b6eee"], 
+          TemplateBox[{8},
+           "Spacer1"]}]],
+         TextAlignment->Center,ExpressionUUID->
+         "5446a404-3831-4e7e-87e8-beda0b8b8107"],
+        Background->RGBColor[0.490196, 0.576471, 0.690196],
+        ItemSize->Full], ""}
+     },
+     GridBoxAlignment->{"Rows" -> {{Center}}},
+     GridBoxItemSize->{"Columns" -> {Full, 
+         Scaled[0.02]}, "Rows" -> {{2.5}}}], Cell[TextData[{
+     Cell[BoxData[
+      TagBox[
+       ActionMenuBox[
+        FrameBox[Cell[TextData[{
+          "See Also",
+          " ",
+          Cell[BoxData[
+           GraphicsBox[
+            {GrayLevel[0.66667], Thickness[0.13], 
+             LineBox[{{-1.8, 0.5}, {0, 0}, {1.8, 0.5}}]},
+            AspectRatio->1,
+            ImageSize->20,
+            PlotRange->{{-3, 4}, {-1, 1}}]],ExpressionUUID->
+           "1778f0fe-e372-4411-a25d-46b97d196231"]
+         }],ExpressionUUID->"4556393d-4dc0-45ee-b93c-eb27a104a016"],
+         StripOnInput->False], {"\<\"Subsets\"\>":>Documentation`HelpLookup[
+        "paclet:ref/Subsets"]},
+        Appearance->None,
+        MenuAppearance->Automatic,
+        MenuStyle->"SeeAlso"],
+       MouseAppearanceTag["LinkHand"]]],
+      LineSpacing->{1.4, 0},ExpressionUUID->
+      "aefb7b0c-d8b1-43cb-85c4-bd532a4e8798"],
+     "\[ThickSpace]\[ThickSpace]\[ThickSpace]\[ThickSpace]\[ThickSpace]\
+\[ThickSpace]",
+     Cell[BoxData[
+      TagBox[
+       ActionMenuBox[
+        FrameBox[Cell[TextData[{
+          "Related Guides",
+          " ",
+          Cell[BoxData[
+           GraphicsBox[
+            {GrayLevel[0.66667], Thickness[0.13], 
+             LineBox[{{-1.8, 0.5}, {0, 0}, {1.8, 0.5}}]},
+            AspectRatio->1,
+            ImageSize->20,
+            PlotRange->{{-3, 4}, {-1, 1}}]],ExpressionUUID->
+           "803a3974-3cdc-413b-b61b-f3521ba336c6"]
+         }],ExpressionUUID->"03e70e8e-3def-4e29-b71d-3b896cb4e63d"],
+         StripOnInput->False], {"\<\"Subsets and Cycles\"\>":>
+        Documentation`HelpLookup[
+        "paclet:Combinatorica/guide/SubsetsAndCycles"], "\<\"Subsets and \
+Permutations\"\>":>Documentation`HelpLookup[
+        "paclet:Combinatorica/guide/SubsetsAndPermutations"]},
+        Appearance->None,
+        MenuAppearance->Automatic,
+        MenuStyle->"MoreAbout"],
+       MouseAppearanceTag["LinkHand"]]],
+      LineSpacing->{1.4, 0},ExpressionUUID->
+      "8467cb91-e89c-4299-a7eb-bce8dd63353c"],
+     "\[ThickSpace]\[ThickSpace]\[ThickSpace]\[ThickSpace]\[ThickSpace]\
+\[ThickSpace]",
+     Cell[BoxData[
+      TagBox[
+       ActionMenuBox[
+        FrameBox[Cell[TextData[{
+          "URL",
+          " ",
+          Cell[BoxData[
+           GraphicsBox[
+            {GrayLevel[0.66667], Thickness[0.13], 
+             LineBox[{{-1.8, 0.5}, {0, 0}, {1.8, 0.5}}]},
+            AspectRatio->1,
+            ImageSize->20,
+            PlotRange->{{-3, 4}, {-1, 1}}]],ExpressionUUID->
+           "e29895a4-2902-44a7-82a5-8fb187a4ad24"]
+         }],ExpressionUUID->"10252826-c03b-4ae7-bdaa-9b5ea61e967c"],
+         StripOnInput->False], {"\<\"Combinatorica/ref/BinarySubsets\"\>":>
+        None, "\<\"Copy Wolfram Documentation Center URL\"\>":>
+        Module[{DocumentationSearch`Private`nb$}, 
+         DocumentationSearch`Private`nb$ = NotebookPut[
+            Notebook[{
+              Cell["Combinatorica/ref/BinarySubsets"]}, Visible -> False]]; 
+         SelectionMove[DocumentationSearch`Private`nb$, All, Notebook]; 
+         FrontEndTokenExecute[DocumentationSearch`Private`nb$, "Copy"]; 
+         NotebookClose[DocumentationSearch`Private`nb$]; Null], 
+        Delimiter, "\<\"Copy web URL\"\>":>
+        Module[{DocumentationSearch`Private`nb$}, 
+         DocumentationSearch`Private`nb$ = NotebookPut[
+            Notebook[{
+              Cell[
+               BoxData[
+                MakeBoxes[
+                 Hyperlink[
+                 "http://reference.wolfram.com/language/Combinatorica/ref/\
+BinarySubsets.html"], StandardForm]], "Input", TextClipboardType -> 
+               "PlainText"]}, Visible -> False]]; 
+         SelectionMove[DocumentationSearch`Private`nb$, All, Notebook]; 
+         FrontEndTokenExecute[DocumentationSearch`Private`nb$, "Copy"]; 
+         NotebookClose[DocumentationSearch`Private`nb$]; 
+         Null], "\<\"Go to web URL\"\>":>FrontEndExecute[{
+          NotebookLocate[{
+            URL[
+             StringJoin[
+              If[
+               TrueQ[DocumentationBuild`Make`Private`wsmlinkQ$10756541], 
+               "http://reference.wolfram.com/system-modeler/", 
+               "http://reference.wolfram.com/language/"], 
+              "Combinatorica/ref/BinarySubsets", ".html"]], None}]}]},
+        Appearance->None,
+        MenuAppearance->Automatic,
+        MenuStyle->"URLMenu"],
+       MouseAppearanceTag["LinkHand"]]],
+      LineSpacing->{1.4, 0},ExpressionUUID->
+      "c414c0b5-196b-48d5-868b-6644a7425188"]
+    }], "AnchorBar",ExpressionUUID->"cf91ecc1-c672-4a86-b799-f841ef454f84"]}
+  }]], "AnchorBarGrid",
+ CellID->1,ExpressionUUID->"2dd4df8f-0f94-41b8-923a-e73c33a41234"],
+
+Cell["SIMple`GlobalVariables`", "ContextNameCell",
+ CellID->340063224,ExpressionUUID->"b4808add-20c0-483d-9446-c65bc403e52a"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[GridBox[{
+   {Cell[TextData[{
+     Cell[
+     "nq", "ObjectName",ExpressionUUID->
+      "67644828-e76d-4e23-b2c1-45768c268ecf"],
+     Cell[BoxData[
+      TemplateBox[{8},
+       "Spacer1"]],ExpressionUUID->"64e84609-2bbc-4269-8395-7c092b289105"],
+     Cell[BoxData[
+     ""], "ObjectNameTranslation",ExpressionUUID->
+      "6d77996b-a7c4-4fcb-9e10-2840a6560da3"]
+    }],ExpressionUUID->"7c5713d0-ccc4-4ebe-b3e5-e4664772a958"], 
+    "\[SpanFromLeft]"}
+  }]], "ObjectNameGrid",
+ CellID->1949396778,ExpressionUUID->"49b4de56-0a38-4736-b83f-303338810c55"],
+
+Cell[BoxData[GridBox[{
+   {"", Cell[TextData[{
+     Cell[BoxData[
+      TemplateBox[{Cell[
+         TextData["nq"]],"paclet:SIMple/ref/nq",
+        "SIMple`GlobalVariables Package Symbol"},
+       "PackageLink",
+       BaseStyle->"InlineFormula"]], "InlineFormula",
+      FontFamily->"Source Sans Pro",ExpressionUUID->
+      "65fbdedb-9420-4388-86aa-05d5c1a93129"],
+     "\[LineSeparator]contains the degrees of freedom of the current model."
+    }],ExpressionUUID->"ef6f7402-9aa9-4a9b-914a-6ed48526944e"]}
+  }]], "Usage",
+ GridBoxOptions->{
+ GridBoxBackground->{
+  "Columns" -> {{None}}, "ColumnsIndexed" -> {}, "Rows" -> {{None}}, 
+   "RowsIndexed" -> {}}},
+ CellID->5138,ExpressionUUID->"8009b1a8-a4ac-48b0-9642-876a018681b0"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[Cell[BoxData[
+ ButtonBox[Cell[TextData[{
+   Cell[BoxData[
+    DynamicBox[ToBoxes[
+      If[
+       MatchQ[
+        CurrentValue[
+         EvaluationNotebook[], {TaggingRules, "Openers", "NotesSection"}, 
+         Closed], 
+        Alternatives[Open, True]], 
+       Style[
+        Graphics[{
+          Thickness[0.18], 
+          RGBColor[0.8509803921568627, 0.396078431372549, 0], 
+          Line[{{-1.8, 0.5}, {0, 0}, {1.8, 0.5}}]}, AspectRatio -> 1, 
+         PlotRange -> {{-3, 4}, {-1, 1}}, ImageSize -> 20], Magnification -> 
+        0.68 Inherited], 
+       Rotate[
+        Style[
+         Graphics[{
+           Thickness[0.18], 
+           RGBColor[0.8509803921568627, 0.396078431372549, 0], 
+           Line[{{-1.8, 0.5}, {0, 0}, {1.8, 0.5}}]}, AspectRatio -> 1, 
+          PlotRange -> {{-3, 4}, {-1, 1}}, ImageSize -> 20], Magnification -> 
+         0.68 Inherited], Rational[1, 2] Pi, {-1.65, -1}]]],
+     ImageSizeCache->{14., {3., 11.}}]],ExpressionUUID->
+    "f97d44b3-1dd7-4fad-b137-7855cd4b2864"],
+   Cell[BoxData[
+    TemplateBox[{1},
+     "Spacer1"]],ExpressionUUID->"00a45b45-8140-4a60-b7c9-e180250dbb05"],
+   "Details"
+  }], "NotesFrameText",ExpressionUUID->"1deac40a-96a3-4360-9f3e-51d1935bb71d"],
+  Appearance->{Automatic, None, "Normal", Automatic},
+  BaseStyle->None,
+  ButtonFunction:>(FrontEndExecute[{
+     FrontEnd`SelectionMove[
+      FrontEnd`SelectedNotebook[], All, ButtonCell], 
+     FrontEndToken["OpenCloseGroup"], 
+     FrontEnd`SelectionMove[
+      FrontEnd`SelectedNotebook[], After, CellContents]}]& ),
+  Evaluator->None,
+  Method->
+   "Preemptive"]],ExpressionUUID->"8a987c1c-a055-455e-ad16-18b5478b3699"]], \
+"NotesSection",
+ WholeCellGroupOpener->True,
+ CellGroupingRules->{"SectionGrouping", 50},
+ CellID->2034850510,ExpressionUUID->"b474f62d-53a6-4b37-a830-92fb68499b00"],
+
+Cell[TextData[{
+ "To use ",
+ Cell[BoxData[
+  TemplateBox[{Cell[
+     TextData["BinarySubsets"]],"paclet:Combinatorica/ref/BinarySubsets",
+    "Combinatorica Package Symbol"},
+   "PackageLink",
+   BaseStyle->"InlineFormula"]], "InlineFormula",
+  FontFamily->"Source Sans Pro",ExpressionUUID->
+  "d316ecd5-a572-4a92-9d80-b64ee9703c9f"],
+ ", you first need to load the ",
+ StyleBox[ButtonBox["Combinatorica",
+  BaseStyle->"Link",
+  ButtonData->"paclet:Combinatorica/guide/CombinatoricaPackage"],
+  FontSlant->"Italic"],
+ ButtonBox[" Package",
+  BaseStyle->"Link",
+  ButtonData->"paclet:Combinatorica/guide/CombinatoricaPackage"],
+ " using ",
+ Cell[BoxData[
+  RowBox[{
+   TemplateBox[{Cell[
+      TextData["Needs"]],"paclet:ref/Needs"},
+    "RefLink",
+    BaseStyle->{"InlineFormula"}], "[", "\"\<Combinatorica`\>\"", "]"}]], 
+  "InlineFormula",
+  FontFamily->"Source Sans Pro",ExpressionUUID->
+  "12cf7a79-10b4-47dd-9cf7-465150fec4e2"],
+ "."
+}], "Notes",
+ CellID->385281506,ExpressionUUID->"1d942354-5bbf-4aef-af0b-e55433207578"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[Cell[BoxData[
+ ButtonBox[Cell[TextData[{
+   Cell[BoxData[
+    DynamicBox[ToBoxes[
+      If[
+       MatchQ[
+        CurrentValue[
+         EvaluationNotebook[], {TaggingRules, "Openers", "NotesSection"}, 
+         Closed], 
+        Alternatives[Open, True]], 
+       Style[
+        Graphics[{
+          Thickness[0.18], 
+          RGBColor[0.8509803921568627, 0.396078431372549, 0], 
+          Line[{{-1.8, 0.5}, {0, 0}, {1.8, 0.5}}]}, AspectRatio -> 1, 
+         PlotRange -> {{-3, 4}, {-1, 1}}, ImageSize -> 20], Magnification -> 
+        0.68 Inherited], 
+       Rotate[
+        Style[
+         Graphics[{
+           Thickness[0.18], 
+           RGBColor[0.8509803921568627, 0.396078431372549, 0], 
+           Line[{{-1.8, 0.5}, {0, 0}, {1.8, 0.5}}]}, AspectRatio -> 1, 
+          PlotRange -> {{-3, 4}, {-1, 1}}, ImageSize -> 20], Magnification -> 
+         0.68 Inherited], Rational[1, 2] Pi, {-1.65, -1}]]],
+     ImageSizeCache->{14., {3., 11.}}]],ExpressionUUID->
+    "39614b54-eb0a-45c9-9da9-61fe3449213a"],
+   Cell[BoxData[
+    TemplateBox[{1},
+     "Spacer1"]],ExpressionUUID->"7cfdf0b3-bee2-4a06-836d-6feb422cb3d7"],
+   "Examples"
+  }], "NotesFrameText",ExpressionUUID->"6ee6d727-bee9-4263-9f7a-2b75a741d654"],
+  Appearance->{Automatic, None, "Normal", Automatic},
+  BaseStyle->None,
+  ButtonFunction:>(FrontEndExecute[{
+     FrontEnd`SelectionMove[
+      FrontEnd`SelectedNotebook[], All, ButtonCell], 
+     FrontEndToken["OpenCloseGroup"], 
+     FrontEnd`SelectionMove[
+      FrontEnd`SelectedNotebook[], After, CellContents]}]& ),
+  Evaluator->None,
+  Method->
+   "Preemptive"]],ExpressionUUID->"d31eb777-fc83-4a47-aefb-de1b0399e7b4"]], \
+"NotesSection",
+ WholeCellGroupOpener->True,
+ CellGroupingRules->{"SectionGrouping", 50},
+ CellID->1223229468,ExpressionUUID->"208dff29-182f-4f0c-b391-948a8ed3c2a0"],
+
+Cell[TextData[{
+ "To use ",
+ Cell[BoxData[
+  TemplateBox[{Cell[
+     TextData["BinarySubsets"]],"paclet:Combinatorica/ref/BinarySubsets",
+    "Combinatorica Package Symbol"},
+   "PackageLink",
+   BaseStyle->"InlineFormula"]], "InlineFormula",
+  FontFamily->"Source Sans Pro",ExpressionUUID->
+  "6d48a8f5-f523-4050-8255-5604078cb604"],
+ ", you first need to load the ",
+ StyleBox[ButtonBox["Combinatorica",
+  BaseStyle->"Link",
+  ButtonData->"paclet:Combinatorica/guide/CombinatoricaPackage"],
+  FontSlant->"Italic"],
+ ButtonBox[" Package",
+  BaseStyle->"Link",
+  ButtonData->"paclet:Combinatorica/guide/CombinatoricaPackage"],
+ " using ",
+ Cell[BoxData[
+  RowBox[{
+   TemplateBox[{Cell[
+      TextData["Needs"]],"paclet:ref/Needs"},
+    "RefLink",
+    BaseStyle->{"InlineFormula"}], "[", "\"\<Combinatorica`\>\"", "]"}]], 
+  "InlineFormula",
+  FontFamily->"Source Sans Pro",ExpressionUUID->
+  "c6b876cc-acf3-47fe-bbbf-f1438e016324"],
+ "."
+}], "Notes",
+ CellID->1864342054,ExpressionUUID->"92d6c90f-0f17-4b10-aaab-c7887f79dd9c"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["See Also", "SeeAlsoSection",
+ CellID->32093,ExpressionUUID->"d5551122-6cb3-42b3-a0d7-e00f3acd5f28"],
+
+Cell[TextData[Cell[BoxData[
+ TemplateBox[{Cell[
+    TextData["Subsets"]],"paclet:ref/Subsets"},
+  "RefLink",
+  BaseStyle->{"InlineFormula"}]], "InlineFormula",
+ FontFamily->
+  "Source Sans Pro",ExpressionUUID->"55742f35-41bc-4ab8-80e5-42f4ad5fcd92"]], \
+"SeeAlso",
+ CellID->13900342,ExpressionUUID->"f83f6506-9ffa-4bf6-8a50-c53bf1e074e4"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Tutorials", "TutorialsSection",
+ CellID->44170939,ExpressionUUID->"c632b870-7749-40e1-b1ac-baa881031176"],
+
+Cell[BoxData[
+ TemplateBox[{Cell[
+    TextData["Combinatorica"]],"paclet:Combinatorica/tutorial/Combinatorica"},
+  
+  "RefLinkPlain",
+  BaseStyle->{"Tutorials", FontSlant -> "Italic"}]], "Tutorials",
+ CellID->285527058,ExpressionUUID->"db42b6d2-cc92-452f-93d6-51882c7d2708"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Related Guides", "MoreAboutSection",
+ CellID->664460470,ExpressionUUID->"a62f90d0-5224-4dc1-9f9f-e81f2abb576f"],
+
+Cell[BoxData[
+ TemplateBox[{Cell[
+    TextData["Subsets and Cycles"]],
+   "paclet:Combinatorica/guide/SubsetsAndCycles"},
+  "RefLinkPlain",
+  BaseStyle->{"MoreAbout"}]], "MoreAbout",
+ CellID->1055443095,ExpressionUUID->"a1cb2198-bc73-4011-b6c9-fd014105c29b"],
+
+Cell[BoxData[
+ TemplateBox[{Cell[
+    TextData["Subsets and Permutations"]],
+   "paclet:Combinatorica/guide/SubsetsAndPermutations"},
+  "RefLinkPlain",
+  BaseStyle->{"MoreAbout"}]], "MoreAbout",
+ CellID->617173445,ExpressionUUID->"34a92196-caa5-46f6-a80f-d4c290daa705"],
+
+Cell[BoxData[
+ TemplateBox[{Cell[
+    TextData["SIMple Package"]],"paclet:SIMple/guide/SIMple"},
+  "RefLinkPlain",
+  BaseStyle->{"MoreAbout"}]], "MoreAbout",
+ CellID->488075105,ExpressionUUID->"45df2cde-5b4b-4303-bbe9-6a8fb220d419"]
+}, Open  ]],
+
+Cell[" ", "FooterCell",
+ CellID->528129311,ExpressionUUID->"1599daa1-b123-4cd1-b314-5b0c3edebaf9"]
+},
+Saveable->False,
+WindowSize->{1247, 1383},
+WindowMargins->{{Automatic, 0}, {0, Automatic}},
+TaggingRules->{
+ "ModificationHighlight" -> False, 
+  "Metadata" -> {
+   "context" -> "SIMple`GlobalVariables`", "keywords" -> {}, 
+    "specialkeywords" -> {}, "index" -> True, "label" -> "SIMple", "language" -> 
+    "en", "paclet" -> "SIMple", "status" -> "", "summary" -> "", 
+    "synonyms" -> {}, "title" -> "SIMple Documentation", "windowtitle" -> 
+    "SIMple Documentation", "type" -> "Symbol", "uri" -> 
+    "SIMple/GlobalVariables/symbol/nq", "WorkflowDockedCell" -> ""}, 
+  "SearchTextTranslated" -> "", "NewStyles" -> False, "LinkTrails" -> ""},
+NamespaceBoxOptions->{Editable->True},
+TagBoxOptions->{Editable->True},
+TemplateBoxOptions->{Editable->True},
+FrontEndVersion->"11.3 for Linux x86 (64-bit) (March 6, 2018)",
+StyleDefinitions->FrontEnd`FileName[{"Wolfram"}, "Reference.nb", 
+  CharacterEncoding -> "UTF-8"]
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 5303, 127, 71, "AnchorBarGrid",ExpressionUUID->"2dd4df8f-0f94-41b8-923a-e73c33a41234",
+ CellID->1],
+Cell[5864, 149, 125, 1, 40, "ContextNameCell",ExpressionUUID->"b4808add-20c0-483d-9446-c65bc403e52a",
+ CellID->340063224],
+Cell[CellGroupData[{
+Cell[6014, 154, 564, 14, 98, "ObjectNameGrid",ExpressionUUID->"49b4de56-0a38-4736-b83f-303338810c55",
+ CellID->1949396778],
+Cell[6581, 170, 729, 17, 141, "Usage",ExpressionUUID->"8009b1a8-a4ac-48b0-9642-876a018681b0",
+ CellID->5138]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[7347, 192, 1830, 46, 54, "NotesSection",ExpressionUUID->"b474f62d-53a6-4b37-a830-92fb68499b00",
+ CellGroupingRules->{"SectionGrouping", 50},
+ CellID->2034850510],
+Cell[9180, 240, 1026, 30, 85, "Notes",ExpressionUUID->"1d942354-5bbf-4aef-af0b-e55433207578",
+ CellID->385281506]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[10243, 275, 1831, 46, 54, "NotesSection",ExpressionUUID->"208dff29-182f-4f0c-b391-948a8ed3c2a0",
+ CellGroupingRules->{"SectionGrouping", 50},
+ CellID->1223229468],
+Cell[12077, 323, 1027, 30, 85, "Notes",ExpressionUUID->"92d6c90f-0f17-4b10-aaab-c7887f79dd9c",
+ CellID->1864342054]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[13141, 358, 105, 1, 89, "SeeAlsoSection",ExpressionUUID->"d5551122-6cb3-42b3-a0d7-e00f3acd5f28",
+ CellID->32093],
+Cell[13249, 361, 338, 8, 38, "SeeAlso",ExpressionUUID->"f83f6506-9ffa-4bf6-8a50-c53bf1e074e4",
+ CellID->13900342]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[13624, 374, 111, 1, 89, "TutorialsSection",ExpressionUUID->"c632b870-7749-40e1-b1ac-baa881031176",
+ CellID->44170939],
+Cell[13738, 377, 274, 6, 37, "Tutorials",ExpressionUUID->"db42b6d2-cc92-452f-93d6-51882c7d2708",
+ CellID->285527058]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[14049, 388, 117, 1, 89, "MoreAboutSection",ExpressionUUID->"a62f90d0-5224-4dc1-9f9f-e81f2abb576f",
+ CellID->664460470],
+Cell[14169, 391, 258, 6, 37, "MoreAbout",ExpressionUUID->"a1cb2198-bc73-4011-b6c9-fd014105c29b",
+ CellID->1055443095],
+Cell[14430, 399, 269, 6, 37, "MoreAbout",ExpressionUUID->"34a92196-caa5-46f6-a80f-d4c290daa705",
+ CellID->617173445],
+Cell[14702, 407, 232, 5, 37, "MoreAbout",ExpressionUUID->"45df2cde-5b4b-4303-bbe9-6a8fb220d419",
+ CellID->488075105]
+}, Open  ]],
+Cell[14949, 415, 98, 1, 53, "FooterCell",ExpressionUUID->"1599daa1-b123-4cd1-b314-5b0c3edebaf9",
+ CellID->528129311]
+}
+]
+*)
+

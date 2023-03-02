@@ -1,0 +1,1565 @@
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Rigid Body Dynamics Functions", \
+"Section",ExpressionUUID->"55aa862e-fde9-42a8-af3b-a0f11c435f4e"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{"https", ":"}], "//", 
+    RowBox[{
+     RowBox[{
+      RowBox[{
+       RowBox[{
+        RowBox[{"mathematica", ".", "stackexchange", ".", "com"}], "/", 
+        "questions"}], "/", "151468"}], "/", "convert"}], "-", "number", "-", 
+     "to", "-", "string"}]}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{
+     RowBox[{"Attributes", "[", "pr", "]"}], " ", "=", " ", 
+     RowBox[{"{", "Listable", "}"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"pr", "[", "n_", "]"}], ":=", 
+    RowBox[{"NumberForm", "[", 
+     RowBox[{"n", ",", "Infinity", ",", 
+      RowBox[{"ExponentFunction", "\[Rule]", 
+       RowBox[{"(", 
+        RowBox[{"Null", "&"}], ")"}]}]}], "]"}]}]}]}]], "Input",
+ CellLabel->"In[9]:=",ExpressionUUID->"25876af6-ab73-4aaf-8f3b-e3fbaa4839a2"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"RBDuJ", "[", 
+    RowBox[{
+     RowBox[{"x_", ":", 
+      RowBox[{"{", "}"}]}], ",", " ", 
+     RowBox[{"\[Lambda]_", ":", 
+      RowBox[{"{", "}"}]}], ",", " ", 
+     RowBox[{"qdd_", ":", 
+      RowBox[{"{", "}"}]}]}], "]"}], " ", ":=", " ", 
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", "}"}], ",", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"RigidBodyDynamics`Private`qd", " ", "=", " ", 
+       RowBox[{"If", "[", 
+        RowBox[{
+         RowBox[{"x", " ", "===", " ", 
+          RowBox[{"{", "}"}]}], ",", " ", 
+         RowBox[{"Array", "[", 
+          RowBox[{"\[DoubleStruckX]", ",", " ", "nq", ",", " ", 
+           RowBox[{"nq", "+", "1"}]}], "]"}], ",", " ", 
+         RowBox[{"x", "\[LeftDoubleBracket]", 
+          RowBox[{
+           RowBox[{"nq", "+", "1"}], ";;", "nx"}], 
+          "\[RightDoubleBracket]"}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"RigidBodyDynamics`Private`qdd", " ", "=", " ", 
+       RowBox[{"If", "[", 
+        RowBox[{
+         RowBox[{"qdd", " ", "===", " ", 
+          RowBox[{"{", "}"}]}], ",", " ", "RigidBodyDynamics`Private`zq", ",",
+          " ", "qdd"}], "]"}]}], ";", "\[IndentingNewLine]", 
+      "\[IndentingNewLine]", 
+      RowBox[{"RigidBodyDynamics`Private`ag", " ", "=", " ", 
+       RowBox[{"agfun", "[", 
+        RowBox[{"x", ",", " ", "\[Lambda]"}], "]"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"RigidBodyDynamics`Private`s", " ", "=", " ", 
+       RowBox[{"sfun", "[", 
+        RowBox[{"x", ",", " ", "\[Lambda]"}], "]"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"RigidBodyDynamics`Private`sdot", " ", "=", " ", 
+       RowBox[{"sdotfun", "[", 
+        RowBox[{"x", ",", " ", "\[Lambda]"}], "]"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"RigidBodyDynamics`Private`XL", " ", "=", " ", 
+       RowBox[{"XLfun", "[", 
+        RowBox[{"x", ",", " ", "\[Lambda]"}], "]"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{
+      "RigidBodyDynamics`Private`\[DoubleStruckCapitalI]", " ", "=", " ", 
+       RowBox[{"\[DoubleStruckCapitalI]fun", "[", 
+        RowBox[{"x", ",", " ", "\[Lambda]"}], "]"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"RigidBodyDynamics`Private`RNEA", "[", "]"}], ";", 
+      "\[IndentingNewLine]", "RigidBodyDynamics`Private`uJ"}]}], 
+    "\[IndentingNewLine]", "]"}]}], ";"}]], "Input",
+ CellLabel->"In[11]:=",ExpressionUUID->"49ab358e-470c-4645-bf5f-3dfa1e7bf05f"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"RBDExpandLink", "[", "rb_", "]"}], " ", ":=", " ", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+       "jc", ",", " ", "dof", ",", " ", "dup", ",", " ", "name", ",", " ", 
+        "p", ",", " ", "pjc"}], "}"}], ",", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"name", " ", "=", " ", 
+        RowBox[{
+         RowBox[{"#1", " ", "<>", " ", "\"\<-\>\"", " ", "<>", " ", "#2"}], 
+         "&"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"jc", " ", "=", " ", 
+        RowBox[{"RBDJoint", "[", 
+         RowBox[{"rb", "\[LeftDoubleBracket]", "3", "\[RightDoubleBracket]"}],
+          "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"dof", " ", "=", " ", 
+        RowBox[{"Length", "[", "jc", "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"If", "[", 
+        RowBox[{
+         RowBox[{"dof", " ", "\[Equal]", " ", "1"}], ",", " ", 
+         RowBox[{"jc", " ", "=", " ", 
+          RowBox[{"rb", "\[LeftDoubleBracket]", 
+           RowBox[{"3", ";;", "3"}], "\[RightDoubleBracket]"}]}]}], "]"}], 
+       ";", "\[IndentingNewLine]", 
+       RowBox[{"p", " ", "=", " ", 
+        RowBox[{
+        "rb", "\[LeftDoubleBracket]", "2", "\[RightDoubleBracket]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"pjc", " ", "=", " ", 
+        RowBox[{"RBDJoint", "[", 
+         RowBox[{
+          RowBox[{"RBDGetLinkInfo", "[", "\"\<joint\>\"", "]"}], "[", "p", 
+          "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"pjc", " ", "=", " ", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{"VectorQ", "[", 
+           RowBox[{"pjc", ",", " ", "StringQ"}], "]"}], ",", " ", 
+          RowBox[{"Last", "@", "pjc"}], ",", " ", 
+          RowBox[{
+           RowBox[{"RBDGetLinkInfo", "[", "\"\<joint\>\"", "]"}], "[", "p", 
+           "]"}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"(*", " ", 
+        RowBox[{"expand", " ", "link"}], " ", "*)"}], "\[IndentingNewLine]", 
+       RowBox[{"dup", " ", "=", " ", 
+        RowBox[{"ConstantArray", "[", 
+         RowBox[{"rb", ",", " ", "dof"}], "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"(*", " ", 
+        RowBox[{"rename", " ", "expanded", " ", "link"}], " ", "*)"}], 
+       "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"dup", "\[LeftDoubleBracket]", 
+         RowBox[{"All", ",", " ", "1"}], "\[RightDoubleBracket]"}], " ", "=", 
+        " ", 
+        RowBox[{"MapThread", "[", 
+         RowBox[{"name", ",", " ", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"dup", "\[LeftDoubleBracket]", 
+             RowBox[{"All", ",", " ", "1"}], "\[RightDoubleBracket]"}], ",", 
+            " ", "jc"}], "}"}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"(*", " ", 
+        RowBox[{"set", " ", "parents"}], " ", "*)"}], "\[IndentingNewLine]", 
+       RowBox[{"If", "[", 
+        RowBox[{
+         RowBox[{"p", " ", "=!=", " ", "Root"}], ",", "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"dup", "\[LeftDoubleBracket]", 
+            RowBox[{"1", ",", " ", "2"}], "\[RightDoubleBracket]"}], " ", "=",
+            " ", 
+           RowBox[{"name", "[", 
+            RowBox[{"p", ",", " ", "pjc"}], "]"}]}], ";"}]}], 
+        "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"dup", "\[LeftDoubleBracket]", 
+         RowBox[{
+          RowBox[{"2", ";;", 
+           RowBox[{"-", "1"}]}], ",", " ", "2"}], "\[RightDoubleBracket]"}], 
+        " ", "=", " ", 
+        RowBox[{"dup", "\[LeftDoubleBracket]", 
+         RowBox[{
+          RowBox[{"1", ";;", 
+           RowBox[{"-", "2"}]}], ",", " ", "1"}], "\[RightDoubleBracket]"}]}],
+        ";", "\[IndentingNewLine]", 
+       RowBox[{"(*", " ", 
+        RowBox[{"set", " ", "dofs"}], " ", "*)"}], "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"dup", "\[LeftDoubleBracket]", 
+         RowBox[{"All", ",", " ", "3"}], "\[RightDoubleBracket]"}], " ", "=", 
+        " ", "jc"}], ";", "\[IndentingNewLine]", 
+       RowBox[{"(*", " ", 
+        RowBox[{
+        "links", " ", "2", " ", "to", " ", "n", " ", "are", " ", "coincident",
+          " ", "with", " ", "link", " ", "1"}], " ", "*)"}], 
+       "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"dup", "\[LeftDoubleBracket]", 
+         RowBox[{
+          RowBox[{"2", ";;", 
+           RowBox[{"-", "1"}]}], ",", " ", 
+          RowBox[{"RBDindex", "[", "\"\<f\>\"", "]"}]}], 
+         "\[RightDoubleBracket]"}], " ", "=", " ", "0"}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"(*", " ", 
+        RowBox[{
+         RowBox[{
+         "zero", " ", "inertia", " ", "for", " ", "links", " ", "1", " ", 
+          "to", " ", "n"}], "-", "1"}], " ", "*)"}], "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"dup", "\[LeftDoubleBracket]", 
+         RowBox[{
+          RowBox[{"1", ";;", 
+           RowBox[{"-", "2"}]}], ",", " ", 
+          RowBox[{"RBDindex", "[", "\"\<mcI\>\"", "]"}]}], 
+         "\[RightDoubleBracket]"}], " ", "=", " ", "0"}], ";", 
+       "\[IndentingNewLine]", "dup"}]}], "\[IndentingNewLine]", "]"}]}], 
+   ";"}], "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"RBDExpandLinks", "[", "]"}], " ", ":=", " ", 
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", "}"}], ",", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{"Sequence", "@@", 
+         RowBox[{"RBDExpandLink", "[", "#1", "]"}]}], ")"}], "&"}], " ", "/@",
+       " ", 
+      RowBox[{"N", "@", 
+       RowBox[{"RBDLinks", "[", "]"}]}]}]}], "\[IndentingNewLine]", "]"}]}], 
+  ";"}]}], "Input",
+ CellLabel->"In[12]:=",ExpressionUUID->"28d83e2d-6ed2-43c0-969d-eeb81a2edf92"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["URDF Helper Functions", \
+"Section",ExpressionUUID->"19d02cfd-2886-4729-bb66-f5b858bf1619"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"XMLToString", "[", "s_", "]"}], " ", ":=", " ", 
+   RowBox[{"If", "[", 
+    RowBox[{
+     RowBox[{"StringQ", "[", "s", "]"}], ",", " ", "s", ",", " ", 
+     RowBox[{"StringDelete", "[", 
+      RowBox[{
+       RowBox[{"ToString", "@", 
+        RowBox[{"pr", "@", "s"}]}], ",", " ", 
+       RowBox[{"\"\<{\>\"", "|", "\"\<}\>\"", "|", "\"\<,\>\""}]}], "]"}]}], 
+    "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"XMLFromRBDLinks", "[", 
+     RowBox[{"tag_", ",", " ", "attr_", ",", " ", "rb_"}], "]"}], " ", ":=", 
+    " ", 
+    RowBox[{"XMLElement", "[", 
+     RowBox[{"tag", ",", " ", 
+      RowBox[{"KeyValueMap", "[", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"#1", " ", "\[Rule]", " ", 
+          RowBox[{"XMLToString", "@", 
+           RowBox[{
+           "rb", "\[LeftDoubleBracket]", "#2", "\[RightDoubleBracket]"}]}]}], 
+         "&"}], ",", " ", "attr"}], "]"}], ",", " ", 
+      RowBox[{"{", "}"}]}], "]"}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"XMLJointName", "[", "s_", "]"}], " ", ":=", " ", 
+   RowBox[{"s", " ", "<>", " ", "\"\<-joint\>\""}]}], ";"}]}], "Input",
+ CellLabel->"In[14]:=",ExpressionUUID->"51eedf34-d7d4-4d6b-9a57-5e2b718a3c92"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Robot Tag", \
+"Section",ExpressionUUID->"39ea279b-7136-45df-9540-c4c48d154a79"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"URDFRobot", "[", 
+    RowBox[{"name_", ",", " ", 
+     RowBox[{"ind_", ":", "All"}], ",", " ", 
+     RowBox[{"custom_", ":", 
+      RowBox[{"{", "}"}]}]}], "]"}], " ", ":=", " ", 
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", "bodies", "}"}], ",", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"bodies", " ", "=", " ", 
+       RowBox[{"RBDExpandLinks", "[", "]"}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"XMLElement", "[", 
+       RowBox[{"\"\<robot\>\"", ",", " ", 
+        RowBox[{"{", 
+         RowBox[{"\"\<name\>\"", " ", "\[Rule]", " ", "name"}], "}"}], ",", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Flatten", "@", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"XMLElement", "[", 
+            RowBox[{"\"\<link\>\"", ",", " ", 
+             RowBox[{"{", 
+              RowBox[{"\"\<name\>\"", " ", "\[Rule]", " ", "\"\<Root\>\""}], 
+              "}"}], ",", " ", 
+             RowBox[{"{", "}"}]}], "]"}], ",", " ", 
+           RowBox[{"Table", "[", "\[IndentingNewLine]", 
+            RowBox[{
+             RowBox[{"{", 
+              RowBox[{
+               RowBox[{"URDFLink", "[", "rb", "]"}], ",", " ", 
+               RowBox[{"URDFJoint", "[", "rb", "]"}]}], "}"}], ",", 
+             "\[IndentingNewLine]", 
+             RowBox[{"{", 
+              RowBox[{"rb", ",", " ", 
+               RowBox[{
+               "bodies", "\[LeftDoubleBracket]", "ind", 
+                "\[RightDoubleBracket]"}]}], "}"}]}], "]"}], ",", " ", 
+           "custom"}], "}"}]}]}], "\[IndentingNewLine]", "]"}]}]}], 
+    "\[IndentingNewLine]", "]"}]}], ";"}]], "Input",
+ CellLabel->"In[17]:=",ExpressionUUID->"e61c09b4-8313-467c-8735-2355d6f57ca2"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Link Tag", \
+"Section",ExpressionUUID->"fe1948df-d8f3-4345-8bba-b3d2e85c02f2"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"URDFLink", "[", "rb_", "]"}], " ", ":=", " ", 
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", "}"}], ",", "\[IndentingNewLine]", 
+     RowBox[{"XMLElement", "[", 
+      RowBox[{"\"\<link\>\"", ",", " ", 
+       RowBox[{"{", 
+        RowBox[{"\"\<name\>\"", " ", "\[Rule]", " ", 
+         RowBox[{
+         "rb", "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}]}], 
+        "}"}], ",", " ", "\[IndentingNewLine]", 
+       RowBox[{"{", "\[IndentingNewLine]", 
+        RowBox[{"XMLElement", "[", 
+         RowBox[{"\"\<inertial\>\"", ",", " ", 
+          RowBox[{"{", "}"}], ",", "\[IndentingNewLine]", 
+          RowBox[{"{", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"XMLFromRBDLinks", "[", 
+             RowBox[{"\"\<origin\>\"", ",", " ", 
+              RowBox[{"<|", 
+               RowBox[{
+                RowBox[{"\"\<xyz\>\"", " ", "\[Rule]", " ", 
+                 RowBox[{"RBDindex", "@", "\"\<c[xyz]\>\""}]}], ",", " ", 
+                RowBox[{"\"\<rpy\>\"", " ", "\[Rule]", " ", 
+                 RowBox[{"{", 
+                  RowBox[{"11", ",", " ", "12", ",", " ", "13"}], "}"}]}]}], 
+               "|>"}], ",", " ", "rb"}], "]"}], ",", "\[IndentingNewLine]", 
+            RowBox[{"XMLFromRBDLinks", "[", 
+             RowBox[{"\"\<mass\>\"", ",", " ", 
+              RowBox[{"<|", 
+               RowBox[{"\"\<value\>\"", " ", "\[Rule]", " ", 
+                RowBox[{"RBDindex", "@", "\"\<m\>\""}]}], "|>"}], ",", " ", 
+              "rb"}], "]"}], ",", "\[IndentingNewLine]", 
+            RowBox[{"XMLFromRBDLinks", "[", 
+             RowBox[{"\"\<inertia\>\"", ",", " ", 
+              RowBox[{"<|", 
+               RowBox[{
+                RowBox[{"\"\<ixx\>\"", " ", "\[Rule]", " ", 
+                 RowBox[{
+                  RowBox[{"RBDindex", "[", "\"\<I\>\"", "]"}], 
+                  "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}]}], 
+                ",", " ", 
+                RowBox[{"\"\<ixy\>\"", " ", "\[Rule]", " ", 
+                 RowBox[{
+                  RowBox[{"RBDindex", "[", "\"\<I\>\"", "]"}], 
+                  "\[LeftDoubleBracket]", "2", "\[RightDoubleBracket]"}]}], 
+                ",", " ", 
+                RowBox[{"\"\<ixz\>\"", " ", "\[Rule]", " ", 
+                 RowBox[{
+                  RowBox[{"RBDindex", "[", "\"\<I\>\"", "]"}], 
+                  "\[LeftDoubleBracket]", "3", "\[RightDoubleBracket]"}]}], 
+                ",", " ", 
+                RowBox[{"\"\<iyy\>\"", " ", "\[Rule]", " ", 
+                 RowBox[{
+                  RowBox[{"RBDindex", "[", "\"\<I\>\"", "]"}], 
+                  "\[LeftDoubleBracket]", "5", "\[RightDoubleBracket]"}]}], 
+                ",", " ", 
+                RowBox[{"\"\<iyz\>\"", " ", "\[Rule]", " ", 
+                 RowBox[{
+                  RowBox[{"RBDindex", "[", "\"\<I\>\"", "]"}], 
+                  "\[LeftDoubleBracket]", "6", "\[RightDoubleBracket]"}]}], 
+                ",", " ", 
+                RowBox[{"\"\<izz\>\"", " ", "\[Rule]", " ", 
+                 RowBox[{
+                  RowBox[{"RBDindex", "[", "\"\<I\>\"", "]"}], 
+                  "\[LeftDoubleBracket]", "9", "\[RightDoubleBracket]"}]}]}], 
+               "|>"}], ",", " ", "rb"}], "]"}]}], "\[IndentingNewLine]", 
+           "}"}]}], "\[IndentingNewLine]", "]"}], "\[IndentingNewLine]", 
+        "}"}]}], "\[IndentingNewLine]", "]"}]}], "\[IndentingNewLine]", 
+    "]"}]}], ";"}]], "Input",
+ CellLabel->"In[18]:=",ExpressionUUID->"dd26e938-e555-4f7b-80ab-0bfcbfa6aa5c"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Joint Tag", \
+"Section",ExpressionUUID->"90096fde-d371-462a-99af-fe1eba33bde6"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"jtype", "::", "joint"}], " ", "=", " ", 
+   "\"\<Unknown Joint: `1`\>\""}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"jtype", "[", "s_", "]"}], " ", ":=", " ", 
+    RowBox[{"Which", "[", 
+     RowBox[{
+      RowBox[{"StringContainsQ", "[", 
+       RowBox[{"s", ",", " ", 
+        RowBox[{"{", 
+         RowBox[{
+         "\"\<rx\>\"", ",", " ", "\"\<ry\>\"", ",", " ", "\"\<rz\>\""}], 
+         "}"}]}], "]"}], ",", " ", "\"\<continuous\>\"", ",", " ", 
+      RowBox[{"StringContainsQ", "[", 
+       RowBox[{"s", ",", " ", 
+        RowBox[{"{", 
+         RowBox[{
+         "\"\<px\>\"", ",", " ", "\"\<py\>\"", ",", " ", "\"\<pz\>\""}], 
+         "}"}]}], "]"}], ",", " ", "\"\<prismatic\>\"", ",", " ", 
+      RowBox[{"StringContainsQ", "[", 
+       RowBox[{"s", ",", " ", "\"\<pln\>\""}], "]"}], ",", " ", 
+      "\"\<planar\>\"", ",", " ", 
+      RowBox[{"StringContainsQ", "[", 
+       RowBox[{"s", ",", " ", "\"\<fb\>\""}], "]"}], ",", " ", 
+      "\"\<floating\>\"", ",", " ", "True", ",", " ", 
+      RowBox[{
+       RowBox[{"Message", "[", 
+        RowBox[{
+         RowBox[{"jtype", "::", "joint"}], ",", " ", "s"}], "]"}], ";", 
+       "\"\<fixed\>\""}]}], "]"}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"jaxis", "::", "joint"}], " ", "=", " ", 
+   "\"\<Unknown Axis: `1`\>\""}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"jaxis", "[", "s_", "]"}], " ", ":=", " ", 
+    RowBox[{"XMLToString", "@", 
+     RowBox[{"Which", "[", 
+      RowBox[{
+       RowBox[{"StringContainsQ", "[", 
+        RowBox[{"s", ",", " ", 
+         RowBox[{"{", 
+          RowBox[{
+          "\"\<rx\>\"", ",", " ", "\"\<ry\>\"", ",", " ", "\"\<rz\>\""}], 
+          "}"}]}], "]"}], ",", " ", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"RBDJoint", "[", "s", "]"}], "[", "]"}], 
+        "\[LeftDoubleBracket]", 
+        RowBox[{"1", ";;", "3"}], "\[RightDoubleBracket]"}], ",", " ", 
+       RowBox[{"StringContainsQ", "[", 
+        RowBox[{"s", ",", " ", 
+         RowBox[{"{", 
+          RowBox[{
+          "\"\<px\>\"", ",", " ", "\"\<py\>\"", ",", " ", "\"\<pz\>\""}], 
+          "}"}]}], "]"}], ",", " ", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"RBDJoint", "[", "s", "]"}], "[", "]"}], 
+        "\[LeftDoubleBracket]", 
+        RowBox[{"4", ";;", "6"}], "\[RightDoubleBracket]"}], ",", " ", 
+       RowBox[{"StringContainsQ", "[", 
+        RowBox[{"s", ",", " ", "\"\<pln\>\""}], "]"}], ",", " ", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"RBDJoint", "[", 
+          RowBox[{
+           RowBox[{"RBDJoint", "[", "\"\<pln\>\"", "]"}], 
+           "\[LeftDoubleBracket]", 
+           RowBox[{"-", "1"}], "\[RightDoubleBracket]"}], "]"}], "[", "]"}], 
+        "\[LeftDoubleBracket]", 
+        RowBox[{"1", ";;", "3"}], "\[RightDoubleBracket]"}], ",", " ", 
+       RowBox[{"StringContainsQ", "[", 
+        RowBox[{"s", ",", " ", "\"\<fb\>\""}], "]"}], ",", " ", 
+       "\"\<0 0 1\>\"", ",", " ", "True", ",", " ", 
+       RowBox[{
+        RowBox[{"Message", "[", 
+         RowBox[{
+          RowBox[{"jaxis", "::", "joint"}], ",", " ", "s"}], "]"}], ";", 
+        "\"\<0 0 1\>\""}]}], "]"}]}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"URDFJoint", "[", "rb_", "]"}], " ", ":=", " ", 
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", "}"}], ",", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"Print", "[", 
+       RowBox[{
+        RowBox[{"rb", "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}], 
+        ",", " ", "\"\<: xyz = \>\"", ",", " ", 
+        RowBox[{"XMLFromRBDLinks", "[", 
+         RowBox[{"\"\<origin\>\"", ",", " ", 
+          RowBox[{"<|", 
+           RowBox[{
+            RowBox[{"\"\<xyz\>\"", " ", "\[Rule]", " ", 
+             RowBox[{"RBDindex", "@", "\"\<f[xyz]\>\""}]}], ",", " ", 
+            RowBox[{"\"\<rpy\>\"", " ", "\[Rule]", " ", 
+             RowBox[{"{", 
+              RowBox[{"4", ",", " ", "5", ",", " ", "6"}], "}"}]}]}], "|>"}], 
+          ",", " ", "rb"}], "]"}]}], "]"}], ";", "\[IndentingNewLine]", 
+      "\[IndentingNewLine]", "\[IndentingNewLine]", 
+      RowBox[{"XMLElement", "[", 
+       RowBox[{"\"\<joint\>\"", ",", " ", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"\"\<name\>\"", " ", "\[Rule]", " ", 
+           RowBox[{"XMLJointName", "@", 
+            RowBox[{
+            "rb", "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}]}]}], 
+          ",", " ", 
+          RowBox[{"\"\<type\>\"", " ", "\[Rule]", " ", 
+           RowBox[{"jtype", "@", 
+            RowBox[{
+            "rb", "\[LeftDoubleBracket]", "3", 
+             "\[RightDoubleBracket]"}]}]}]}], "}"}], ",", " ", 
+        "\[IndentingNewLine]", 
+        RowBox[{"{", "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"XMLFromRBDLinks", "[", 
+           RowBox[{"\"\<origin\>\"", ",", " ", 
+            RowBox[{"<|", 
+             RowBox[{
+              RowBox[{"\"\<xyz\>\"", " ", "\[Rule]", " ", 
+               RowBox[{"RBDindex", "@", "\"\<f[xyz]\>\""}]}], ",", " ", 
+              RowBox[{"\"\<rpy\>\"", " ", "\[Rule]", " ", 
+               RowBox[{"{", 
+                RowBox[{"4", ",", " ", "5", ",", " ", "6"}], "}"}]}]}], 
+             "|>"}], ",", " ", "rb"}], "]"}], ",", "\[IndentingNewLine]", 
+          RowBox[{"XMLElement", "[", 
+           RowBox[{"\"\<parent\>\"", ",", " ", 
+            RowBox[{"{", 
+             RowBox[{"\"\<link\>\"", " ", "\[Rule]", " ", 
+              RowBox[{"ToString", "@", 
+               RowBox[{
+               "rb", "\[LeftDoubleBracket]", "2", 
+                "\[RightDoubleBracket]"}]}]}], "}"}], ",", " ", 
+            RowBox[{"{", "}"}]}], "]"}], ",", "\[IndentingNewLine]", 
+          RowBox[{"XMLFromRBDLinks", "[", 
+           RowBox[{"\"\<child\>\"", ",", " ", 
+            RowBox[{"<|", 
+             RowBox[{"\"\<link\>\"", " ", "\[Rule]", " ", 
+              RowBox[{"RBDindex", "@", "\"\<n\>\""}]}], "|>"}], ",", " ", 
+            "rb"}], "]"}], ",", "\[IndentingNewLine]", 
+          RowBox[{"XMLElement", "[", 
+           RowBox[{"\"\<axis\>\"", ",", " ", 
+            RowBox[{"{", 
+             RowBox[{"\"\<xyz\>\"", " ", "\[Rule]", " ", 
+              RowBox[{"jaxis", "@", 
+               RowBox[{
+               "rb", "\[LeftDoubleBracket]", "3", 
+                "\[RightDoubleBracket]"}]}]}], "}"}], ",", " ", 
+            RowBox[{"{", "}"}]}], "]"}]}], "\[IndentingNewLine]", "}"}]}], 
+       "\[IndentingNewLine]", "]"}]}]}], "\[IndentingNewLine]", "]"}]}], 
+  ";"}]}], "Input",
+ CellLabel->"In[19]:=",ExpressionUUID->"4c6d54d8-44ba-4396-92bd-b09133cb0482"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Custom Tags", \
+"Section",ExpressionUUID->"d9b0d6fb-8a25-4475-9fbc-7bb5b075d686"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"URDFTrajectory", "[", "motion_", "]"}], " ", ":=", " ", 
+    RowBox[{"XMLElement", "[", 
+     RowBox[{"\"\<motion\>\"", ",", " ", 
+      RowBox[{"{", 
+       RowBox[{"\"\<joint\>\"", " ", "\[Rule]", " ", 
+        RowBox[{"motion", "\[LeftDoubleBracket]", 
+         RowBox[{"1", ",", "1"}], "\[RightDoubleBracket]"}]}], "}"}], ",", 
+      "  ", 
+      RowBox[{"{", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"XMLElement", "[", 
+         RowBox[{"\"\<t\>\"", ",", " ", 
+          RowBox[{"{", 
+           RowBox[{"\"\<value\>\"", " ", "\[Rule]", " ", 
+            RowBox[{"XMLToString", "@", 
+             RowBox[{"motion", "\[LeftDoubleBracket]", 
+              RowBox[{"All", ",", "2"}], "\[RightDoubleBracket]"}]}]}], "}"}],
+           ",", " ", 
+          RowBox[{"{", "}"}]}], "]"}], ",", "\[IndentingNewLine]", 
+        RowBox[{"XMLElement", "[", 
+         RowBox[{"\"\<q\>\"", ",", " ", 
+          RowBox[{"{", 
+           RowBox[{"\"\<value\>\"", " ", "\[Rule]", " ", 
+            RowBox[{"XMLToString", "@", 
+             RowBox[{"motion", "\[LeftDoubleBracket]", 
+              RowBox[{"All", ",", "3"}], "\[RightDoubleBracket]"}]}]}], "}"}],
+           ",", " ", 
+          RowBox[{"{", "}"}]}], "]"}], ",", "\[IndentingNewLine]", 
+        RowBox[{"XMLElement", "[", 
+         RowBox[{"\"\<qd\>\"", ",", " ", 
+          RowBox[{"{", 
+           RowBox[{"\"\<value\>\"", " ", "\[Rule]", " ", 
+            RowBox[{"XMLToString", "@", 
+             RowBox[{"motion", "\[LeftDoubleBracket]", 
+              RowBox[{"All", ",", "4"}], "\[RightDoubleBracket]"}]}]}], "}"}],
+           ",", " ", 
+          RowBox[{"{", "}"}]}], "]"}], ",", "\[IndentingNewLine]", 
+        RowBox[{"XMLElement", "[", 
+         RowBox[{"\"\<qdd\>\"", ",", " ", 
+          RowBox[{"{", 
+           RowBox[{"\"\<value\>\"", " ", "\[Rule]", " ", 
+            RowBox[{"XMLToString", "@", 
+             RowBox[{"motion", "\[LeftDoubleBracket]", 
+              RowBox[{"All", ",", "5"}], "\[RightDoubleBracket]"}]}]}], "}"}],
+           ",", " ", 
+          RowBox[{"{", "}"}]}], "]"}], ",", "\[IndentingNewLine]", 
+        RowBox[{"XMLElement", "[", 
+         RowBox[{"\"\<tau\>\"", ",", " ", 
+          RowBox[{"{", 
+           RowBox[{"\"\<value\>\"", " ", "\[Rule]", " ", 
+            RowBox[{"XMLToString", "@", 
+             RowBox[{"motion", "\[LeftDoubleBracket]", 
+              RowBox[{"All", ",", "6"}], "\[RightDoubleBracket]"}]}]}], "}"}],
+           ",", " ", 
+          RowBox[{"{", "}"}]}], "]"}]}], "\[IndentingNewLine]", "}"}]}], 
+     "]"}]}], ";"}], "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"URDFTrajectory", "[", 
+     RowBox[{"x_", ",", " ", "c_"}], "]"}], " ", ":=", " ", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+       "T", ",", " ", "joints", ",", " ", "traj", ",", " ", "q", ",", " ", 
+        "qd", ",", " ", "qdd", ",", " ", "tau"}], "}"}], ",", 
+      "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"T", " ", "=", " ", 
+        RowBox[{"Flatten", "@", 
+         RowBox[{"x", "[", "\"\<Grid\>\"", "]"}]}]}], ";", 
+       "\[IndentingNewLine]", "\[IndentingNewLine]", 
+       RowBox[{"joints", " ", "=", " ", 
+        RowBox[{"Map", "[", 
+         RowBox[{"XMLJointName", ",", " ", 
+          RowBox[{
+           RowBox[{"RBDExpandLinks", "[", "]"}], "\[LeftDoubleBracket]", 
+           RowBox[{"All", ",", " ", "1"}], "\[RightDoubleBracket]"}]}], 
+         "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"traj", " ", "=", " ", 
+        RowBox[{"Table", "[", "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"q", " ", "=", " ", 
+            RowBox[{
+             RowBox[{"x", "[", "t", "]"}], "\[LeftDoubleBracket]", 
+             RowBox[{"1", ";;", "nq"}], "\[RightDoubleBracket]"}]}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{"qd", " ", "=", " ", 
+            RowBox[{
+             RowBox[{"x", "[", "t", "]"}], "\[LeftDoubleBracket]", 
+             RowBox[{
+              RowBox[{"nq", "+", "1"}], ";;", "nx"}], 
+             "\[RightDoubleBracket]"}]}], ";", "\[IndentingNewLine]", 
+           RowBox[{"qdd", " ", "=", " ", 
+            RowBox[{"RBDqdd", "[", 
+             RowBox[{
+              RowBox[{"x", "[", "t", "]"}], ",", " ", 
+              RowBox[{"c", "[", "t", "]"}]}], "]"}]}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{"tau", " ", "=", " ", 
+            RowBox[{"RBDuJ", "[", 
+             RowBox[{
+              RowBox[{"x", "[", "t", "]"}], ",", " ", 
+              RowBox[{"c", "[", "t", "]"}]}], "]"}]}], ";", 
+           "\[IndentingNewLine]", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"{", 
+             RowBox[{"joints", ",", " ", 
+              RowBox[{"ConstantArray", "[", 
+               RowBox[{"t", ",", " ", "nq"}], "]"}], ",", " ", "q", ",", " ", 
+              "qd", ",", " ", "qdd", ",", " ", "tau"}], "}"}], 
+            "\[Transpose]"}]}], ",", " ", 
+          RowBox[{"{", 
+           RowBox[{"t", ",", " ", "T"}], "}"}]}], "\[IndentingNewLine]", 
+         "]"}]}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+       RowBox[{"Map", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"URDFTrajectory", "@", 
+           RowBox[{"traj", "\[LeftDoubleBracket]", 
+            RowBox[{"All", ",", " ", "#"}], "\[RightDoubleBracket]"}]}], 
+          "&"}], ",", " ", 
+         RowBox[{"Range", "@", "nq"}]}], "]"}]}]}], "\[IndentingNewLine]", 
+     "]"}]}], ";"}], "\[IndentingNewLine]"}], "\[IndentingNewLine]"}], "Input",
+ CellLabel->"In[24]:=",ExpressionUUID->"e8c025cc-e233-4c57-8693-e4f72f639272"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Create URDF File", \
+"Section",ExpressionUUID->"558d8522-fc1c-401d-95cc-31c43ba68093"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"CreateURDF", "[", 
+    RowBox[{"name_", ",", " ", 
+     RowBox[{"ind_", ":", "All"}], ",", " ", 
+     RowBox[{"custom_", ":", 
+      RowBox[{"{", "}"}]}]}], "]"}], " ", ":=", " ", 
+   RowBox[{
+    RowBox[{"XMLObject", "[", "\"\<Document\>\"", "]"}], "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"XMLObject", "[", "\"\<Declaration\>\"", "]"}], "[", 
+        RowBox[{"\"\<Version\>\"", "\[Rule]", "\"\<1.0\>\""}], "]"}], ",", 
+       " ", 
+       RowBox[{
+        RowBox[{"XMLObject", "[", "\"\<Comment\>\"", "]"}], "[", 
+        "\"\<Generated using URDF.nb\>\"", "]"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"XMLObject", "[", "\"\<Comment\>\"", "]"}], "[", 
+        "\"\<Based on the models in \
+https://github.com/nr-codes/BipedalGaitGeneration\>\"", "]"}], ",", 
+       "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"XMLObject", "[", "\"\<Comment\>\"", "]"}], "[", 
+        "\"\<Nelson Rosa Jr. @nr-codes on GitHub 01/18/2021, Mathematica 12, \
+v1\>\"", "]"}]}], "}"}], ",", " ", 
+     RowBox[{"URDFRobot", "[", 
+      RowBox[{"name", ",", " ", "ind", ",", " ", "custom"}], "]"}], ",", " ", 
+     RowBox[{"{", "}"}]}], "]"}]}], ";"}]], "Input",
+ CellLabel->"In[26]:=",ExpressionUUID->"1645f525-2b01-48a3-b563-5b3f9b96b559"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"SaveURDF", "[", 
+   RowBox[{"file_", ",", " ", "xml_"}], "]"}], " ", ":=", " ", 
+  RowBox[{"Export", "[", 
+   RowBox[{"file", ",", " ", "xml", ",", " ", "\"\<XML\>\""}], 
+   "]"}]}]], "Input",
+ CellLabel->"In[27]:=",ExpressionUUID->"38e27960-ab99-4a6d-a725-4ce442fd7682"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Matlab Mapping", \
+"Section",ExpressionUUID->"32c75294-ac4f-4fcb-ab3e-67b1c646ae51"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"ToMatlab", "[", 
+    RowBox[{
+     RowBox[{"x_", ":", 
+      RowBox[{"{", "}"}]}], ",", " ", 
+     RowBox[{"c_", ":", 
+      RowBox[{"{", "}"}]}]}], "]"}], " ", ":=", " ", 
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+      "T", ",", " ", "S", ",", " ", "K", ",", " ", "VRAW", ",", " ", "V", ",",
+        " ", "M", ",", " ", "Q", ",", " ", "QD", ",", " ", "QDD", ",", " ", 
+       "TAU", ",", " ", "H"}], "}"}], ",", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"T", " ", "=", " ", 
+       RowBox[{"Flatten", "@", 
+        RowBox[{"x", "[", "\"\<Grid\>\"", "]"}]}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"S", " ", "=", " ", 
+       RowBox[{
+        RowBox[{"StringReplace", "[", 
+         RowBox[{
+          RowBox[{"ToString", "[", 
+           RowBox[{"pr", "[", "#", "]"}], "]"}], ",", " ", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"\"\<{\>\"", " ", "\[Rule]", " ", "\"\<[\>\""}], ",", " ", 
+            RowBox[{"\"\<}\>\"", " ", "\[Rule]", " ", "\"\<]\>\""}]}], 
+           "}"}]}], "]"}], "&"}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"K", " ", "=", " ", 
+       RowBox[{"StringTemplate", "[", "\"\<'`1`'\>\"", "]"}]}], ";", 
+      "\[IndentingNewLine]", "\[IndentingNewLine]", 
+      RowBox[{"If", "[", 
+       RowBox[{
+        RowBox[{"x", " ", "=!=", " ", 
+         RowBox[{"{", "}"}]}], ",", "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"V", " ", "=", " ", 
+          RowBox[{
+          "StringTemplate", "[", 
+           "\"\<struct('t', `1`, 'q', `2`, 'qd', `3`, 'qdd', `4`, 'tau', `5`, \
+'h', `6`)\>\"", "]"}]}], ";", "\[IndentingNewLine]", 
+         RowBox[{"M", " ", "=", " ", 
+          RowBox[{
+          "StringTemplate", "[", 
+           "\"\<names = `1`; motion = containers.Map(names, `2`);\>\"", 
+           "]"}]}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+         RowBox[{"Q", " ", "=", " ", 
+          RowBox[{
+           RowBox[{"x", "[", "T", "]"}], "\[LeftDoubleBracket]", 
+           RowBox[{"All", ",", " ", 
+            RowBox[{"1", ";;", "nq"}]}], "\[RightDoubleBracket]"}]}], ";", 
+         "\[IndentingNewLine]", 
+         RowBox[{"QD", " ", "=", " ", 
+          RowBox[{
+           RowBox[{"x", "[", "T", "]"}], "\[LeftDoubleBracket]", 
+           RowBox[{"All", ",", " ", 
+            RowBox[{
+             RowBox[{"nq", "+", "1"}], ";;", "nx"}]}], 
+           "\[RightDoubleBracket]"}]}], ";", "\[IndentingNewLine]", 
+         RowBox[{"QDD", " ", "=", " ", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"RBDqdd", "[", 
+             RowBox[{
+              RowBox[{"x", "[", "#", "]"}], ",", " ", 
+              RowBox[{"c", "[", "#", "]"}]}], "]"}], "&"}], " ", "/@", " ", 
+           "T"}]}], ";", "\[IndentingNewLine]", 
+         RowBox[{"TAU", " ", "=", " ", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"RBDuJ", "[", 
+             RowBox[{
+              RowBox[{"x", "[", 
+               RowBox[{
+               "T", "\[LeftDoubleBracket]", "#", "\[RightDoubleBracket]"}], 
+               "]"}], ",", " ", 
+              RowBox[{"c", "[", 
+               RowBox[{
+               "T", "\[LeftDoubleBracket]", "#", "\[RightDoubleBracket]"}], 
+               "]"}], ",", " ", 
+              RowBox[{
+              "QDD", "\[LeftDoubleBracket]", "#", "\[RightDoubleBracket]"}]}],
+              "]"}], "&"}], " ", "/@", " ", 
+           RowBox[{"Range", "@", 
+            RowBox[{"Length", "@", "T"}]}]}]}], ";", "\[IndentingNewLine]", 
+         RowBox[{"H", " ", "=", " ", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"RBDb", "[", 
+             RowBox[{
+              RowBox[{"x", "[", 
+               RowBox[{
+               "T", "\[LeftDoubleBracket]", "#", "\[RightDoubleBracket]"}], 
+               "]"}], ",", " ", 
+              RowBox[{"c", "[", 
+               RowBox[{
+               "T", "\[LeftDoubleBracket]", "#", "\[RightDoubleBracket]"}], 
+               "]"}]}], "]"}], "&"}], " ", "/@", " ", 
+           RowBox[{"Range", "@", 
+            RowBox[{"Length", "@", "T"}]}]}]}], ";", "\[IndentingNewLine]", 
+         "\[IndentingNewLine]", 
+         RowBox[{"M", "[", "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"K", " ", "/@", " ", 
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"RBDExpandLinks", "[", "]"}], "\[LeftDoubleBracket]", 
+              RowBox[{"All", ",", " ", "1"}], "\[RightDoubleBracket]"}], 
+             ")"}]}], ",", "\[IndentingNewLine]", 
+           RowBox[{"MapThread", "[", 
+            RowBox[{
+             RowBox[{
+              RowBox[{"V", "@@", 
+               RowBox[{"(", 
+                RowBox[{"S", " ", "/@", " ", 
+                 RowBox[{"{", 
+                  RowBox[{"T", ",", " ", "##"}], "}"}]}], ")"}]}], "&"}], ",",
+              " ", 
+             RowBox[{"{", 
+              RowBox[{
+               RowBox[{"Q", "\[Transpose]"}], ",", " ", 
+               RowBox[{"QD", "\[Transpose]"}], ",", " ", 
+               RowBox[{"QDD", "\[Transpose]"}], ",", " ", 
+               RowBox[{"TAU", "\[Transpose]"}], ",", " ", 
+               RowBox[{"H", "\[Transpose]"}]}], "}"}]}], "]"}]}], 
+          "\[IndentingNewLine]", "]"}]}], ",", "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"M", " ", "=", " ", 
+          RowBox[{"StringTemplate", "[", "\"\<names = `1`;\>\"", "]"}]}], ";",
+          "\[IndentingNewLine]", 
+         RowBox[{"M", "[", 
+          RowBox[{"K", " ", "/@", " ", 
+           RowBox[{"(", 
+            RowBox[{
+             RowBox[{"RBDExpandLinks", "[", "]"}], "\[LeftDoubleBracket]", 
+             RowBox[{"All", ",", " ", "1"}], "\[RightDoubleBracket]"}], 
+            ")"}]}], "]"}]}]}], "\[IndentingNewLine]", "]"}]}]}], 
+    "\[IndentingNewLine]", "]"}]}], ";"}]], "Input",
+ CellLabel->"In[26]:=",ExpressionUUID->"1c07cf20-6627-418f-a295-995536f66686"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Example Usage 0", \
+"Section",ExpressionUUID->"b6a914b2-1ef9-432c-9128-088f73088bbc"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"x", ",", " ", "c"}], "}"}], " ", "=", " ", 
+   RowBox[{"Values", "@", 
+    RowBox[{
+     RowBox[{"BLGaitKinematics", "[", 
+      RowBox[{
+       RowBox[{"rootman1", "\[LeftDoubleBracket]", 
+        RowBox[{
+         RowBox[{"-", "1"}], ",", " ", "1"}], "\[RightDoubleBracket]"}], ",", 
+       " ", 
+       RowBox[{"\"\<n\>\"", " ", "\[Rule]", " ", "1"}]}], "]"}], 
+     "\[LeftDoubleBracket]", 
+     RowBox[{"{", 
+      RowBox[{"\"\<x[t]\>\"", ",", " ", "\"\<c[t]\>\""}], "}"}], 
+     "\[RightDoubleBracket]"}]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"URDFTrajectory", "[", 
+   RowBox[{"x", ",", " ", "c"}], "]"}], 
+  ";"}]}], "Input",ExpressionUUID->"e2353d37-5ea6-4fb8-be44-d2c3a6ffa449"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{"x", ",", " ", "c"}], "}"}], " ", "=", " ", 
+    RowBox[{"Values", "@", 
+     RowBox[{
+      RowBox[{"BLGaitKinematics", "[", 
+       RowBox[{
+        RowBox[{"rootman1", "\[LeftDoubleBracket]", 
+         RowBox[{
+          RowBox[{"-", "1"}], ",", " ", "1"}], "\[RightDoubleBracket]"}], ",",
+         " ", 
+        RowBox[{"\"\<n\>\"", " ", "\[Rule]", " ", "1"}]}], "]"}], 
+      "\[LeftDoubleBracket]", 
+      RowBox[{"{", 
+       RowBox[{"\"\<x[t]\>\"", ",", " ", "\"\<c[t]\>\""}], "}"}], 
+      "\[RightDoubleBracket]"}]}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"t", " ", "=", " ", 
+   RowBox[{
+    RowBox[{"x", "[", "\"\<Grid\>\"", "]"}], "\[LeftDoubleBracket]", 
+    RowBox[{"25", ",", " ", "1"}], "\[RightDoubleBracket]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"qdd", " ", "=", " ", 
+   RowBox[{"0", 
+    RowBox[{"RBDqdd", "[", 
+     RowBox[{
+      RowBox[{"x", "[", "t", "]"}], ",", " ", 
+      RowBox[{"c", "[", "t", "]"}]}], "]"}]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"RBDuJ", "[", 
+    RowBox[{
+     RowBox[{"x", "[", "t", "]"}], ",", " ", 
+     RowBox[{"c", "[", "t", "]"}], ",", " ", "qdd"}], "]"}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"MatrixForm", "/@", "RigidBodyDynamics`Private`s"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"MatrixForm", "/@", "RigidBodyDynamics`Private`XL"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"MatrixForm", "/@", "RigidBodyDynamics`Private`uJ"}], 
+  "\[IndentingNewLine]", "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"RBDM", "[", 
+    RowBox[{
+     RowBox[{"x", "[", "t", "]"}], ",", " ", 
+     RowBox[{"c", "[", "t", "]"}]}], "]"}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"MatrixForm", "@", "RigidBodyDynamics`Private`M"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"RBDqdd", "[", 
+   RowBox[{
+    RowBox[{"x", "[", "t", "]"}], ",", " ", 
+    RowBox[{"c", "[", "t", "]"}]}], "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"MatrixForm", "@", "RigidBodyDynamics`Private`qdd"}]}], "Input",
+ CellLabel->"In[430]:=",ExpressionUUID->"fbff0790-1908-4dfe-b2f0-4118aa8590a0"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Example Usage Rabbit", \
+"Section",ExpressionUUID->"3872af67-5292-4af2-a2a0-d28e376bc38b"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{"ExportString", "[", 
+     RowBox[{
+      RowBox[{"URDFLink", "[", 
+       RowBox[{"rb", "\[LeftDoubleBracket]", "2", "\[RightDoubleBracket]"}], 
+       "]"}], ",", " ", "\"\<XML\>\""}], "]"}], ";"}], "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{"ExportString", "[", 
+     RowBox[{
+      RowBox[{"URDFJoint", "[", 
+       RowBox[{"rb", "\[LeftDoubleBracket]", "2", "\[RightDoubleBracket]"}], 
+       "]"}], ",", " ", "\"\<XML\>\""}], "]"}], ";"}], "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{"ExportString", "[", 
+     RowBox[{
+      RowBox[{"URDFRobot", "[", 
+       RowBox[{
+        RowBox[{"BLbiped", "[", "\"\<name\>\"", "]"}], ",", " ", 
+        RowBox[{"2", ";;"}]}], "]"}], ",", " ", "\"\<XML\>\""}], "]"}], ";"}],
+    "*)"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{"CreateURDF", "[", 
+     RowBox[{
+     "\"\<C:\\\\Users\\\\Nelson\\\\Sync\\\\LectureNotesCDR\\\\LectureCDRAdmin\
+\\\\src\\\\ext_lib\\\\rabbit_urdf\\\\rabbit.urdf\>\"", ",", " ", 
+      RowBox[{"BLbiped", "[", "\"\<name\>\"", "]"}], ",", " ", 
+      RowBox[{"2", ";;"}]}], "]"}], ";"}], "*)"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"x", ",", " ", "c"}], "}"}], " ", "=", " ", 
+     RowBox[{"Values", "@", 
+      RowBox[{
+       RowBox[{"BLGaitKinematics", "[", 
+        RowBox[{
+         RowBox[{"rootman1", "\[LeftDoubleBracket]", 
+          RowBox[{
+           RowBox[{"-", "1"}], ",", " ", "1"}], "\[RightDoubleBracket]"}], 
+         ",", " ", 
+         RowBox[{"\"\<n\>\"", " ", "\[Rule]", " ", "1"}]}], "]"}], 
+       "\[LeftDoubleBracket]", 
+       RowBox[{"{", 
+        RowBox[{"\"\<x[t]\>\"", ",", " ", "\"\<c[t]\>\""}], "}"}], 
+       "\[RightDoubleBracket]"}]}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"URDFTrajectory", "[", 
+     RowBox[{"x", ",", " ", "c"}], "]"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"urdf", " ", "=", " ", 
+     RowBox[{"CreateURDF", "[", 
+      RowBox[{
+       RowBox[{"BLbiped", "[", "\"\<name\>\"", "]"}], ",", " ", "All", ",", 
+       " ", 
+       RowBox[{"URDFTrajectory", "[", 
+        RowBox[{"x", ",", " ", "c"}], "]"}]}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"SaveURDF", "[", 
+     RowBox[{
+     "\"\<C:\\\\Users\\\\Nelson\\\\Sync\\\\LectureNotesCDR\\\\LectureCDRAdmin\
+\\\\src\\\\ext_lib\\\\rabbit_urdf\\\\rabbit.urdf\>\"", ",", "urdf"}], "]"}], 
+    ";"}]}]}]], "Input",
+ CellLabel->
+  "In[352]:=",ExpressionUUID->"c67889ae-2d51-43fd-abac-8df5f68a54c1"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{"x", ",", " ", "c"}], "}"}], " ", "=", " ", 
+    RowBox[{"Values", "@", 
+     RowBox[{
+      RowBox[{"BLGaitKinematics", "[", 
+       RowBox[{
+        RowBox[{"rootman1", "\[LeftDoubleBracket]", 
+         RowBox[{
+          RowBox[{"-", "1"}], ",", " ", "1"}], "\[RightDoubleBracket]"}], ",",
+         " ", 
+        RowBox[{"\"\<n\>\"", " ", "\[Rule]", " ", "1"}]}], "]"}], 
+      "\[LeftDoubleBracket]", 
+      RowBox[{"{", 
+       RowBox[{"\"\<x[t]\>\"", ",", " ", "\"\<c[t]\>\""}], "}"}], 
+      "\[RightDoubleBracket]"}]}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"t", " ", "=", " ", 
+    RowBox[{"Last", "@", 
+     RowBox[{"Flatten", "@", 
+      RowBox[{"x", "[", "\"\<Domain\>\"", "]"}]}]}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Export", "[", 
+   RowBox[{
+   "\"\<C:\\\\Users\\\\Nelson\\\\Sync\\\\LectureNotesCDR\\\\LectureCDRAdmin\\\
+\\src\\\\unit_tests\\\\rabbit_motion.m\>\"", ",", 
+    RowBox[{"ToMatlab", "[", 
+     RowBox[{"x", ",", " ", "c"}], "]"}], ",", " ", "\"\<TEXT\>\"", ",", " ", 
+    RowBox[{"CharacterEncoding", "\[Rule]", "\"\<UTF8\>\""}]}], 
+   "\[IndentingNewLine]", "]"}], 
+  ";"}]}], "Input",ExpressionUUID->"6d9c984e-0433-4447-966f-cf51841f714e"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"T", " ", "=", " ", 
+   RowBox[{"Flatten", "@", 
+    RowBox[{"x", "[", "\"\<Grid\>\"", "]"}]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"Dimensions", "@", "T"}], "\[IndentingNewLine]", 
+ RowBox[{"Dimensions", "@", 
+  RowBox[{"(", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"x", "[", "T", "]"}], "\[LeftDoubleBracket]", 
+     RowBox[{"All", ",", " ", 
+      RowBox[{"1", ";;", "nq"}]}], "\[RightDoubleBracket]"}], 
+    "\[Transpose]"}], ")"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"x", "[", "T", "]"}], "\[LeftDoubleBracket]", 
+   RowBox[{"All", ",", " ", 
+    RowBox[{"1", ";;", "nq"}]}], "\[RightDoubleBracket]"}], 
+  "\[Transpose]"}]}], "Input",
+ CellLabel->"In[127]:=",ExpressionUUID->"edfa841b-2c93-4232-8053-ba0eb8f81cc8"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Example Usage Five-Link Walker", \
+"Section",ExpressionUUID->"7bcb4f51-043d-4c75-8cee-1770eeb17f66"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"Block", "[", 
+   RowBox[{
+    RowBox[{"{", "\[DoubleStruckC]", "}"}], ",", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"\[DoubleStruckC]", "[", 
+       RowBox[{"-", "3"}], "]"}], " ", "=", " ", "1"}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"\[DoubleStruckC]", "[", 
+       RowBox[{"-", "2"}], "]"}], " ", "=", " ", "1"}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"urdf", " ", "=", " ", 
+      RowBox[{"CreateURDF", "[", 
+       RowBox[{
+        RowBox[{"BLbiped", "[", "\"\<name\>\"", "]"}], ",", " ", "All"}], 
+       "]"}]}], ";"}]}], "\[IndentingNewLine]", "]"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"SaveURDF", "[", 
+   RowBox[{
+   "\"\<C:\\\\Users\\\\Nelson\\\\Sync\\\\LectureNotesCDR\\\\LectureCDRAdmin\\\
+\\src\\\\ext_lib\\\\five_link_urdf\\\\five_link.urdf\>\"", ",", "urdf"}], 
+   "]"}], ";"}]}], "Input",
+ CellLabel->
+  "In[583]:=",ExpressionUUID->"9e4f4079-43cf-492b-8a81-f42a1b3e7920"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"\[Theta]-py\"\>", "\[InvisibleSpace]", "\<\": xyz = \"\>", 
+   "\[InvisibleSpace]", 
+   RowBox[{"XMLElement", "[", 
+    RowBox[{"\<\"origin\"\>", ",", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"\<\"xyz\"\>", "\[Rule]", "\<\"0. 0. 0.\"\>"}], ",", 
+       RowBox[{"\<\"rpy\"\>", "\[Rule]", "\<\"0. 0. 0.\"\>"}]}], "}"}], ",", 
+     RowBox[{"{", "}"}]}], "]"}]}],
+  SequenceForm["\[Theta]-py", ": xyz = ", 
+   XMLElement["origin", {"xyz" -> "0. 0. 0.", "rpy" -> "0. 0. 0."}, {}]],
+  Editable->False]], "Print",
+ CellLabel->
+  "During evaluation of \
+In[583]:=",ExpressionUUID->"b9679191-abaa-45b5-bed0-4a5ee64789bf"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"torso-px\"\>", "\[InvisibleSpace]", "\<\": xyz = \"\>", 
+   "\[InvisibleSpace]", 
+   RowBox[{"XMLElement", "[", 
+    RowBox[{"\<\"origin\"\>", ",", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"\<\"xyz\"\>", "\[Rule]", "\<\"0. 0. 0.\"\>"}], ",", 
+       RowBox[{"\<\"rpy\"\>", "\[Rule]", "\<\"0. 0. 0.\"\>"}]}], "}"}], ",", 
+     RowBox[{"{", "}"}]}], "]"}]}],
+  SequenceForm["torso-px", ": xyz = ", 
+   XMLElement["origin", {"xyz" -> "0. 0. 0.", "rpy" -> "0. 0. 0."}, {}]],
+  Editable->False]], "Print",
+ CellLabel->
+  "During evaluation of \
+In[583]:=",ExpressionUUID->"57f85927-a379-4ea5-b4ac-9856461a547a"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"torso-py\"\>", "\[InvisibleSpace]", "\<\": xyz = \"\>", 
+   "\[InvisibleSpace]", 
+   RowBox[{"XMLElement", "[", 
+    RowBox[{"\<\"origin\"\>", ",", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"\<\"xyz\"\>", "\[Rule]", "\<\"0 0 0\"\>"}], ",", 
+       RowBox[{"\<\"rpy\"\>", "\[Rule]", "\<\"0 0 0\"\>"}]}], "}"}], ",", 
+     RowBox[{"{", "}"}]}], "]"}]}],
+  SequenceForm["torso-py", ": xyz = ", 
+   XMLElement["origin", {"xyz" -> "0 0 0", "rpy" -> "0 0 0"}, {}]],
+  Editable->False]], "Print",
+ CellLabel->
+  "During evaluation of \
+In[583]:=",ExpressionUUID->"4bac7896-c14a-49dd-a786-e59dd7047ffa"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"torso-pz\"\>", "\[InvisibleSpace]", "\<\": xyz = \"\>", 
+   "\[InvisibleSpace]", 
+   RowBox[{"XMLElement", "[", 
+    RowBox[{"\<\"origin\"\>", ",", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"\<\"xyz\"\>", "\[Rule]", "\<\"0 0 0\"\>"}], ",", 
+       RowBox[{"\<\"rpy\"\>", "\[Rule]", "\<\"0 0 0\"\>"}]}], "}"}], ",", 
+     RowBox[{"{", "}"}]}], "]"}]}],
+  SequenceForm["torso-pz", ": xyz = ", 
+   XMLElement["origin", {"xyz" -> "0 0 0", "rpy" -> "0 0 0"}, {}]],
+  Editable->False]], "Print",
+ CellLabel->
+  "During evaluation of \
+In[583]:=",ExpressionUUID->"357728b4-65e7-4278-aac6-986e3c6d7eb7"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"torso-rx\"\>", "\[InvisibleSpace]", "\<\": xyz = \"\>", 
+   "\[InvisibleSpace]", 
+   RowBox[{"XMLElement", "[", 
+    RowBox[{"\<\"origin\"\>", ",", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"\<\"xyz\"\>", "\[Rule]", "\<\"0 0 0\"\>"}], ",", 
+       RowBox[{"\<\"rpy\"\>", "\[Rule]", "\<\"0 0 0\"\>"}]}], "}"}], ",", 
+     RowBox[{"{", "}"}]}], "]"}]}],
+  SequenceForm["torso-rx", ": xyz = ", 
+   XMLElement["origin", {"xyz" -> "0 0 0", "rpy" -> "0 0 0"}, {}]],
+  Editable->False]], "Print",
+ CellLabel->
+  "During evaluation of \
+In[583]:=",ExpressionUUID->"3e8203ae-827d-48aa-ad54-01a1e21c60fb"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"torso-ry\"\>", "\[InvisibleSpace]", "\<\": xyz = \"\>", 
+   "\[InvisibleSpace]", 
+   RowBox[{"XMLElement", "[", 
+    RowBox[{"\<\"origin\"\>", ",", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"\<\"xyz\"\>", "\[Rule]", "\<\"0 0 0\"\>"}], ",", 
+       RowBox[{"\<\"rpy\"\>", "\[Rule]", "\<\"0 0 0\"\>"}]}], "}"}], ",", 
+     RowBox[{"{", "}"}]}], "]"}]}],
+  SequenceForm["torso-ry", ": xyz = ", 
+   XMLElement["origin", {"xyz" -> "0 0 0", "rpy" -> "0 0 0"}, {}]],
+  Editable->False]], "Print",
+ CellLabel->
+  "During evaluation of \
+In[583]:=",ExpressionUUID->"4aabf19c-7ee6-4bd3-8636-9590f7377373"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"left thigh-rx\"\>", "\[InvisibleSpace]", "\<\": xyz = \"\>", 
+   "\[InvisibleSpace]", 
+   RowBox[{"XMLElement", "[", 
+    RowBox[{"\<\"origin\"\>", ",", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"\<\"xyz\"\>", "\[Rule]", "\<\"0. 0.075 0.\"\>"}], ",", 
+       RowBox[{"\<\"rpy\"\>", 
+        "\[Rule]", "\<\"0. 0. -3.141592653589793\"\>"}]}], "}"}], ",", 
+     RowBox[{"{", "}"}]}], "]"}]}],
+  SequenceForm["left thigh-rx", ": xyz = ", 
+   XMLElement[
+   "origin", {
+    "xyz" -> "0. 0.075 0.", "rpy" -> "0. 0. -3.141592653589793"}, {}]],
+  Editable->False]], "Print",
+ CellLabel->
+  "During evaluation of \
+In[583]:=",ExpressionUUID->"e98eb1f5-2748-4380-b9f3-f0a6b5bbac44"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"left thigh-ry\"\>", "\[InvisibleSpace]", "\<\": xyz = \"\>", 
+   "\[InvisibleSpace]", 
+   RowBox[{"XMLElement", "[", 
+    RowBox[{"\<\"origin\"\>", ",", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"\<\"xyz\"\>", "\[Rule]", "\<\"0 0 0\"\>"}], ",", 
+       RowBox[{"\<\"rpy\"\>", "\[Rule]", "\<\"0 0 0\"\>"}]}], "}"}], ",", 
+     RowBox[{"{", "}"}]}], "]"}]}],
+  SequenceForm["left thigh-ry", ": xyz = ", 
+   XMLElement["origin", {"xyz" -> "0 0 0", "rpy" -> "0 0 0"}, {}]],
+  Editable->False]], "Print",
+ CellLabel->
+  "During evaluation of \
+In[583]:=",ExpressionUUID->"5eefb09f-c909-4c87-8751-d4cab6bde99f"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"right thigh-rx\"\>", "\[InvisibleSpace]", "\<\": xyz = \"\>", 
+   "\[InvisibleSpace]", 
+   RowBox[{"XMLElement", "[", 
+    RowBox[{"\<\"origin\"\>", ",", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"\<\"xyz\"\>", "\[Rule]", "\<\"0. -0.075 0.\"\>"}], ",", 
+       RowBox[{"\<\"rpy\"\>", "\[Rule]", "\<\"0. 0. 0.\"\>"}]}], "}"}], ",", 
+     RowBox[{"{", "}"}]}], "]"}]}],
+  SequenceForm["right thigh-rx", ": xyz = ", 
+   XMLElement["origin", {"xyz" -> "0. -0.075 0.", "rpy" -> "0. 0. 0."}, {}]],
+  Editable->False]], "Print",
+ CellLabel->
+  "During evaluation of \
+In[583]:=",ExpressionUUID->"0ee13a87-c8c4-4361-9c6d-4a40ed4dc2dd"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"right thigh-ry\"\>", "\[InvisibleSpace]", "\<\": xyz = \"\>", 
+   "\[InvisibleSpace]", 
+   RowBox[{"XMLElement", "[", 
+    RowBox[{"\<\"origin\"\>", ",", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"\<\"xyz\"\>", "\[Rule]", "\<\"0 0 0\"\>"}], ",", 
+       RowBox[{"\<\"rpy\"\>", "\[Rule]", "\<\"0 0 0\"\>"}]}], "}"}], ",", 
+     RowBox[{"{", "}"}]}], "]"}]}],
+  SequenceForm["right thigh-ry", ": xyz = ", 
+   XMLElement["origin", {"xyz" -> "0 0 0", "rpy" -> "0 0 0"}, {}]],
+  Editable->False]], "Print",
+ CellLabel->
+  "During evaluation of \
+In[583]:=",ExpressionUUID->"2a68735d-7695-4db9-bda2-ae3bae854ef6"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"left foot-ry\"\>", "\[InvisibleSpace]", "\<\": xyz = \"\>", 
+   "\[InvisibleSpace]", 
+   RowBox[{"XMLElement", "[", 
+    RowBox[{"\<\"origin\"\>", ",", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"\<\"xyz\"\>", "\[Rule]", "\<\"0. 0. -0.275\"\>"}], ",", 
+       RowBox[{"\<\"rpy\"\>", "\[Rule]", "\<\"0. 0. 0.\"\>"}]}], "}"}], ",", 
+     RowBox[{"{", "}"}]}], "]"}]}],
+  SequenceForm["left foot-ry", ": xyz = ", 
+   XMLElement["origin", {"xyz" -> "0. 0. -0.275", "rpy" -> "0. 0. 0."}, {}]],
+  Editable->False]], "Print",
+ CellLabel->
+  "During evaluation of \
+In[583]:=",ExpressionUUID->"e644e303-f857-4276-8b7e-eb3dfe10227f"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"right foot-ry\"\>", "\[InvisibleSpace]", "\<\": xyz = \"\>", 
+   "\[InvisibleSpace]", 
+   RowBox[{"XMLElement", "[", 
+    RowBox[{"\<\"origin\"\>", ",", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"\<\"xyz\"\>", "\[Rule]", "\<\"0. 0. -0.275\"\>"}], ",", 
+       RowBox[{"\<\"rpy\"\>", "\[Rule]", "\<\"0. 0. 0.\"\>"}]}], "}"}], ",", 
+     RowBox[{"{", "}"}]}], "]"}]}],
+  SequenceForm["right foot-ry", ": xyz = ", 
+   XMLElement["origin", {"xyz" -> "0. 0. -0.275", "rpy" -> "0. 0. 0."}, {}]],
+  Editable->False]], "Print",
+ CellLabel->
+  "During evaluation of \
+In[583]:=",ExpressionUUID->"89c49536-7809-492b-90ad-e05d9d039b09"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"Export", "[", 
+   RowBox[{
+   "\"\<C:\\\\Users\\\\Nelson\\\\Sync\\\\LectureNotesCDR\\\\LectureCDRAdmin\\\
+\\src\\\\ext_lib\\\\five_link_urdf\\\\five_link_names.m\>\"", ",", 
+    RowBox[{"ToMatlab", "[", "]"}], ",", " ", "\"\<TEXT\>\"", ",", " ", 
+    RowBox[{"CharacterEncoding", "\[Rule]", "\"\<UTF8\>\""}]}], 
+   "\[IndentingNewLine]", "]"}], ";"}]], "Input",
+ CellLabel->"In[392]:=",ExpressionUUID->"ee38a77c-f607-46e2-9bf2-618cde56a06d"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Example Usage Atlas Biped", \
+"Section",ExpressionUUID->"25157f28-357e-4e4a-a44b-efee7d27f99b"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"URDFRobot", "[", 
+    RowBox[{"name_", ",", " ", 
+     RowBox[{"ind_", ":", "All"}], ",", " ", 
+     RowBox[{"custom_", ":", 
+      RowBox[{"{", "}"}]}]}], "]"}], " ", ":=", " ", 
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", "}"}], ",", "\[IndentingNewLine]", 
+     RowBox[{"XMLElement", "[", 
+      RowBox[{"\"\<robot\>\"", ",", " ", 
+       RowBox[{"{", 
+        RowBox[{"\"\<name\>\"", " ", "\[Rule]", " ", "name"}], "}"}], ",", 
+       "\[IndentingNewLine]", 
+       RowBox[{"Flatten", "@", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"XMLElement", "[", 
+           RowBox[{"\"\<link\>\"", ",", " ", 
+            RowBox[{"{", 
+             RowBox[{"\"\<name\>\"", " ", "\[Rule]", " ", "\"\<Root\>\""}], 
+             "}"}], ",", " ", 
+            RowBox[{"{", "}"}]}], "]"}], ",", " ", 
+          RowBox[{"Table", "[", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"{", 
+             RowBox[{
+              RowBox[{"URDFLink", "[", "rb", "]"}], ",", " ", 
+              RowBox[{"URDFJoint", "[", "rb", "]"}]}], "}"}], ",", 
+            "\[IndentingNewLine]", 
+            RowBox[{"{", 
+             RowBox[{"rb", ",", " ", 
+              RowBox[{
+              "bodies", "\[LeftDoubleBracket]", "ind", 
+               "\[RightDoubleBracket]"}]}], "}"}]}], "]"}], ",", " ", 
+          "custom"}], "}"}]}]}], "\[IndentingNewLine]", "]"}]}], 
+    "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Block", "[", 
+   RowBox[{
+    RowBox[{"{", "\[DoubleStruckC]", "}"}], ",", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"\[DoubleStruckC]", "[", 
+       RowBox[{"-", "3"}], "]"}], " ", "=", " ", "1"}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"\[DoubleStruckC]", "[", 
+       RowBox[{"-", "2"}], "]"}], " ", "=", " ", "1"}], ";", 
+     "\[IndentingNewLine]", "\[IndentingNewLine]", 
+     RowBox[{"bodies", " ", "=", " ", 
+      RowBox[{"RBDExpandLinks", "[", "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"bodies", "\[LeftDoubleBracket]", 
+       RowBox[{"All", ",", " ", "3"}], "\[RightDoubleBracket]"}], " ", "=", 
+      " ", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"Which", "[", 
+         RowBox[{
+          RowBox[{"#", " ", "===", " ", "Root"}], ",", " ", "#", ",", " ", 
+          RowBox[{"StringEndsQ", "[", 
+           RowBox[{"#", ",", " ", 
+            RowBox[{"\"\<px\>\"", "|", "\"\<py\>\"", "|", "\"\<pz\>\""}]}], 
+           "]"}], ",", " ", 
+          RowBox[{"\"\<p\>\"", " ", "<>", " ", 
+           RowBox[{"StringTake", "[", 
+            RowBox[{"#", ",", " ", 
+             RowBox[{"-", "1"}]}], "]"}]}], ",", " ", "True", ",", " ", 
+          RowBox[{"\"\<r\>\"", " ", "<>", " ", 
+           RowBox[{"StringTake", "[", 
+            RowBox[{"#", ",", " ", 
+             RowBox[{"-", "1"}]}], "]"}]}]}], "]"}], "&"}], " ", "/@", " ", 
+       RowBox[{"bodies", "\[LeftDoubleBracket]", 
+        RowBox[{"All", ",", " ", "3"}], "\[RightDoubleBracket]"}]}]}], ";", 
+     "\[IndentingNewLine]", "\[IndentingNewLine]", 
+     RowBox[{"urdf", " ", "=", " ", 
+      RowBox[{"CreateURDF", "[", 
+       RowBox[{
+        RowBox[{"BLbiped", "[", "\"\<name\>\"", "]"}], ",", " ", "All"}], 
+       "]"}]}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+     RowBox[{"pos", " ", "=", " ", 
+      RowBox[{"Position", "[", 
+       RowBox[{"urdf", ",", " ", 
+        RowBox[{"Rule", "[", 
+         RowBox[{
+          RowBox[{"\"\<name\>\"", "|", "\"\<link\>\""}], ",", " ", "_"}], 
+         "]"}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"s", " ", "=", " ", 
+      RowBox[{"Extract", "[", 
+       RowBox[{"urdf", ",", " ", "pos"}], "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"s", "\[LeftDoubleBracket]", 
+       RowBox[{"All", ",", " ", "2"}], "\[RightDoubleBracket]"}], " ", "=", 
+      " ", 
+      RowBox[{"StringReplace", "[", 
+       RowBox[{
+        RowBox[{"s", "\[LeftDoubleBracket]", 
+         RowBox[{"All", ",", " ", "2"}], "\[RightDoubleBracket]"}], ",", " ", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"\"\<.\>\"", "|", "\"\<-\>\""}], " ", "\[Rule]", " ", 
+           "\"\<_\>\""}], ",", "  ", 
+          RowBox[{
+          "\"\<\[Theta]\>\"", " ", "\[Rule]", " ", "\"\<theta\>\""}]}], 
+         "}"}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"urdf", " ", "=", " ", 
+      RowBox[{"ReplacePart", "[", 
+       RowBox[{"urdf", ",", " ", 
+        RowBox[{"Thread", "[", 
+         RowBox[{"pos", " ", "\[Rule]", " ", "s"}], "]"}]}], "]"}]}], ";", 
+     "\[IndentingNewLine]", "\[IndentingNewLine]", 
+     RowBox[{"SaveURDF", "[", 
+      RowBox[{
+       RowBox[{"FileNameJoin", "[", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"NotebookDirectory", "[", "]"}], ",", " ", 
+          "\"\<Atlas.urdf\>\""}], "}"}], "]"}], ",", "urdf"}], "]"}], ";"}]}],
+    "\[IndentingNewLine]", "]"}], 
+  ";"}]}], "Input",ExpressionUUID->"16d85e8f-b704-4e67-a33b-e67dfe72837a"]
+}, Open  ]]
+},
+Evaluator->"Local",
+WindowSize->{1247, 1383},
+WindowMargins->{{67, Automatic}, {0, Automatic}},
+PrivateNotebookOptions->{"FileOutlineCache"->False},
+CellContext->"Global`",
+TrackCellChangeTimes->False,
+Magnification:>1. Inherited,
+FrontEndVersion->"11.3 for Linux x86 (64-bit) (March 6, 2018)",
+StyleDefinitions->"Default.nb"
+]

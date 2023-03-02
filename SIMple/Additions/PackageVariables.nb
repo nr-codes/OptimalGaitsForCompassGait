@@ -1,0 +1,459 @@
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["BipedalLocomotion", \
+"Chapter",ExpressionUUID->"e2c98664-bdb2-4cda-93f5-cf921eafa142"],
+
+Cell[CellGroupData[{
+
+Cell["Begin Package", \
+"Section",ExpressionUUID->"39e9dbc5-5d7b-4441-82c6-0811eadac5b2"],
+
+Cell[BoxData[
+ RowBox[{"BeginPackage", "[", "\"\<BipedalLocomotion`\>\"", "]"}]], "Input",
+ InitializationCell->
+  True,ExpressionUUID->"373c729a-c8f4-4195-8bd0-cf654512040d"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["H", "Section",ExpressionUUID->"a2edd552-7d18-42da-bbb6-7357f9b1fa9a"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"BLFoot", "::", "usage"}], " ", "=", " ", "\"\<\>\""}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"BLSwingFootPosition", "::", "usage"}], " ", "=", " ", 
+   "\"\<\>\""}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"BLStanceFootPosition", "::", "usage"}], " ", "=", " ", 
+   "\"\<\>\""}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"BLSwingFootHeight", "::", "usage"}], " ", "=", " ", "\"\<\>\""}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"BLKnees", "::", "usage"}], " ", "=", " ", "\"\<\>\""}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"BLStep", "::", "usage"}], " ", "=", " ", "\"\<\>\""}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"BLAverageVelocity", "::", "usage"}], " ", "=", " ", "\"\<\>\""}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"BLSlope", "::", "usage"}], " ", "=", " ", "\"\<\>\""}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"BLApplyBounds", "::", "usage"}], " ", "=", " ", "\"\<\>\""}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"BLStateBounds", "::", "usage"}], " ", "=", " ", "\"\<\>\""}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"BLqddfu", "::", "usage"}], " ", "=", " ", "\"\<\>\""}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"BLqdd", "::", "usage"}], " ", "=", "\"\<\>\""}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"BLf", "::", "usage"}], " ", "=", " ", "\"\<\>\""}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"BLu", "::", "usage"}], " ", "=", " ", "\"\<\>\""}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"BLFriction", "::", "usage"}], " ", "=", " ", "\"\<\>\""}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"BLqd\[Iota]", "::", "usage"}], " ", "=", " ", "\"\<\>\""}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"BLqd", "::", "usage"}], " ", "=", " ", "\"\<\>\""}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"BL\[Iota]", "::", "usage"}], " ", "=", " ", "\"\<\>\""}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"BLcost", "::", "usage"}], " ", "=", " ", "\"\<\>\""}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"BLuu", "::", "usage"}], " ", "=", " ", "\"\<\>\""}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"BLuBMqd", "::", "usage"}], " ", "=", " ", "\"\<\>\""}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"BLuinuin", "::", "usage"}], " ", "=", " ", "\"\<\>\""}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"BLuinMqd", "::", "usage"}], " ", "=", " ", "\"\<\>\""}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"BLR\[Sigma]", "::", "usage"}], " ", "=", " ", "\"\<\>\""}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"BLL\[Sigma]", "::", "usage"}], " ", "=", " ", "\"\<\>\""}], ";", 
+  RowBox[{
+   RowBox[{"BLV\[Sigma]", "::", "usage"}], " ", "=", " ", "\"\<\>\""}], 
+  ";"}]}], "Input",
+ InitializationCell->
+  True,ExpressionUUID->"5ab612c3-8748-413e-9dbf-4090e1304eff"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["AlternateCompile", \
+"Section",ExpressionUUID->"20fd99ba-6741-4e8a-a4fa-1b9ef2d67534"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"BLAlternateCompile", "::", "usage"}], " ", "=", " ", "\"\<\>\""}],
+   ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"BLAlternateCompileBiped", "::", "usage"}], " ", "=", " ", 
+   "\"\<\>\""}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"BLAlternateCompileWithInputSpline", "::", "usage"}], " ", "=", 
+   " ", "\"\<\>\""}], ";"}]}], "Input",
+ InitializationCell->
+  True,ExpressionUUID->"75d0d872-4875-4a99-9340-6a6eace632a0"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["BSplines", \
+"Section",ExpressionUUID->"e3dcdfb3-d1cf-45ce-b3a3-0b5c1f2f01cf"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"CompileDeBoor", "::", "usage"}], " ", "=", " ", "\"\<\>\""}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"CompileWithInputSpline", "::", "usage"}], " ", "=", " ", 
+   "\"\<\>\""}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"KnotsDTT", "::", "usage"}], " ", "=", " ", "\"\<\>\""}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"SplineSim", "::", "usage"}], " ", "=", " ", "\"\<\>\""}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"BLSplineSim", "::", "usage"}], " ", "=", " ", "\"\<\>\""}], 
+  ";"}]}], "Input",
+ InitializationCell->
+  True,ExpressionUUID->"5dcf809c-49e2-4f7d-bb29-52e65f8d71f5"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["H2", "Section",ExpressionUUID->"eb90c7d8-119e-4888-9086-1cb8d78a9982"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"BLApplyBounds2", "::", "usage"}], " ", "=", " ", "\"\<\>\""}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"BLFunc", "::", "usage"}], " ", "=", " ", "\"\<\>\""}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"BLApplyBoundsAux", "::", "usage"}], " ", "=", " ", "\"\<\>\""}], 
+  ";"}]}], "Input",
+ InitializationCell->
+  True,ExpressionUUID->"8565f865-ca5e-4504-9476-83d8a556fc93"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Optimality", \
+"Section",ExpressionUUID->"523e5eb0-b4bf-42ce-8d2c-a7075f012a6b"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"OptimalityConstraints", "::", "usage"}], " ", "=", " ", 
+   "\"\<\>\""}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"FirstOrderOptimalityCondition", "::", "usage"}], " ", "=", " ", 
+   "\"\<\>\""}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"EffortOptimalityConstraints", "::", "usage"}], " ", "=", " ", 
+   "\"\<\>\""}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"FArcLength", "::", "usage"}], " ", "=", " ", "\"\<\>\""}], 
+  ";"}]}], "Input",
+ InitializationCell->
+  True,ExpressionUUID->"96f27464-3010-417b-b196-005bfdd91fec"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Private", \
+"Section",ExpressionUUID->"605cf821-017b-483d-ae66-b9c94e1a2c72"],
+
+Cell[BoxData[
+ RowBox[{"Begin", "[", "\"\<`Private`\>\"", "]"}]], "Input",
+ InitializationCell->
+  True,ExpressionUUID->"38404c01-ca06-494c-a4cc-b0ba5fe4fe75"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["End Package", "Section",
+ InitializationCell->
+  True,ExpressionUUID->"89ca9acb-4053-4b62-ae07-011985e5c6d0"],
+
+Cell[BoxData[{
+ RowBox[{"End", "[", "]"}], "\n", 
+ RowBox[{"EndPackage", "[", "]"}]}], "Input",
+ InitializationCell->True,
+ CellLabel->
+  "In[1135]:=",ExpressionUUID->"4658df9e-a842-4ee0-aa85-339f6974490e"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["ContinuationMethods", \
+"Chapter",ExpressionUUID->"c9f301f3-a489-46d2-9737-de12a222b477"],
+
+Cell[CellGroupData[{
+
+Cell["Begin Package", \
+"Section",ExpressionUUID->"e5683813-0d94-4607-92c2-584d575c9b69"],
+
+Cell[BoxData[
+ RowBox[{"BeginPackage", "[", "\"\<ContinuationMethods`\>\"", "]"}]], "Input",
+ InitializationCell->
+  True,ExpressionUUID->"2d1b72ee-77b5-4792-afef-967a3997e4cc"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Util Functions", \
+"Section",ExpressionUUID->"1f81a1ee-0b41-4e88-a105-0059661f2aa8"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"BifurcationPointTest", "::", "usage"}], " ", "=", " ", 
+   "\"\<\>\""}], ";"}]], "Input",
+ InitializationCell->
+  True,ExpressionUUID->"8a285dd1-32cf-427f-b50d-b530d1e53717"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Line Search Algorithms", \
+"Section",ExpressionUUID->"bc507cab-1e90-4133-be07-5eb205df86b0"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"MoreThuente", "::", "usage"}], " ", "=", " ", "\"\<\>\""}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Armijo", "::", "usage"}], " ", "=", " ", "\"\<\>\""}], 
+  ";"}]}], "Input",
+ InitializationCell->
+  True,ExpressionUUID->"836afad7-ecac-40db-9ec8-32bc8cebdaab"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Continuation Algorithms", \
+"Section",ExpressionUUID->"4cfd7637-b25a-449a-9d2a-9a09c4496827"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"cmc", "::", "usage"}], " ", "=", " ", "\"\<\>\""}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"cmroot", "::", "usage"}], " ", "=", " ", "\"\<\>\""}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"cmac", "::", "usage"}], " ", "=", " ", "\"\<\>\""}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"cmnat", "::", "usage"}], " ", "=", " ", "\"\<\>\""}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"StepPlot", "::", "usage"}], " ", "=", " ", "\"\<\>\""}], 
+  ";"}]}], "Input",
+ InitializationCell->
+  True,ExpressionUUID->"3d5ceb85-cff8-46ae-9298-008db4daf4a1"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Main Function", \
+"Section",ExpressionUUID->"f31a11eb-e37a-485d-b6c8-bc561f306716"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"tmon", "::", "usage"}], " ", "=", " ", "\"\<\>\""}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"rootmon", "::", "usage"}], " ", "=", " ", "\"\<\>\""}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"hmon", "::", "usage"}], " ", "=", " ", "\"\<\>\""}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"plotmon", "::", "usage"}], " ", "=", " ", "\"\<\>\""}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Man0", "::", "usage"}], " ", "=", " ", "\"\<\>\""}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Mani", "::", "usage"}], " ", "=", " ", "\"\<\>\""}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Man", "::", "usage"}], " ", "=", " ", "\"\<\>\""}], 
+  ";"}]}], "Input",
+ InitializationCell->
+  True,ExpressionUUID->"0dea549a-2dfb-4b4c-8c28-9d23518de3e5"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Private", \
+"Section",ExpressionUUID->"ac95273a-3892-4738-8e2f-bc204c0fea20"],
+
+Cell[BoxData[
+ RowBox[{"Begin", "[", "\"\<`Private`\>\"", "]"}]], "Input",
+ InitializationCell->
+  True,ExpressionUUID->"179fa58a-f8ed-44a1-91b2-80e5a0e524d7"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["End Package", "Section",
+ InitializationCell->
+  True,ExpressionUUID->"d18e80d7-26c0-4346-98cb-cd680e8aba15"],
+
+Cell[BoxData[{
+ RowBox[{"End", "[", "]"}], "\n", 
+ RowBox[{"EndPackage", "[", "]"}]}], "Input",
+ InitializationCell->True,
+ CellLabel->
+  "In[1135]:=",ExpressionUUID->"756144e7-c65a-48ce-b41f-e6fb25f5a435"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Options", \
+"Chapter",ExpressionUUID->"03c25830-2774-4ef1-9558-421a570eb109"],
+
+Cell[BoxData[{
+ RowBox[{"BeginPackage", "[", "\"\<Options`\>\"", 
+  "]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"MergeOpts", "::", "usage"}], " ", "=", " ", "\"\<\>\""}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"ComputeBounds", "::", "usage"}], " ", "=", " ", "\"\<\>\""}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Timer", "::", "usage"}], " ", "=", " ", "\"\<\>\""}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Sparse", "::", "usage"}], " ", "=", " ", "\"\<\>\""}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{"Begin", "[", "\"\<`Private`\>\"", "]"}], "\[IndentingNewLine]", 
+ RowBox[{"End", "[", "]"}], "\n", 
+ RowBox[{"EndPackage", "[", "]"}]}], "Input",
+ InitializationCell->
+  True,ExpressionUUID->"b36450c1-6575-4a3d-9d34-9a8c0b76b523"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["HybridDynamics", \
+"Chapter",ExpressionUUID->"c03580ee-33a7-4221-8d63-d179df9f03f2"],
+
+Cell[BoxData[{
+ RowBox[{"BeginPackage", "[", "\"\<HybridDynamics`\>\"", 
+  "]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"\[CurlyPhi]aux", "::", "usage"}], " ", "=", " ", "\"\<\>\""}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{"Begin", "[", "\"\<`Private`\>\"", "]"}], "\[IndentingNewLine]", 
+ RowBox[{"End", "[", "]"}], "\n", 
+ RowBox[{"EndPackage", "[", "]"}]}], "Input",
+ InitializationCell->
+  True,ExpressionUUID->"64642c88-5c55-48c8-9886-6038e44e49ec"]
+}, Open  ]]
+},
+AutoGeneratedPackage->Automatic,
+Evaluator->"Local",
+WindowSize->{958.1999999999999, 729.},
+WindowMargins->{{Automatic, 2.400000000000091}, {Automatic, 0}},
+PrivateNotebookOptions->{"FileOutlineCache"->False},
+CellContext->"Global`",
+TrackCellChangeTimes->False,
+FrontEndVersion->"12.3 for Microsoft Windows (64-bit) (July 9, 2021)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"d0cf4e20-b60a-4ae2-a85a-1dcd6c89f3c0"
+]
+

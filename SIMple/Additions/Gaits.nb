@@ -1,0 +1,217 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 11.3' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[      8297,        209]
+NotebookOptionsPosition[      7300,        180]
+NotebookOutlinePosition[      7667,        196]
+CellTagsIndexPosition[      7624,        193]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Begin Package", "Section",ExpressionUUID->"5c647646-69b4-42f4-a06c-08d3ec9b108f"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"BeginPackage", "[", 
+   RowBox[{"\"\<BipedalLocomotion`\>\"", ",", " ", 
+    RowBox[{"{", 
+     RowBox[{
+     "\"\<GlobalVariables`\>\"", ",", " ", "\"\<RigidBodyDynamics`\>\"", ",", 
+      " ", "\"\<HybridDynamics`\>\"", ",", " ", 
+      "\"\<ContinuationMethods`\>\"", ",", " ", 
+      "\"\<BipedalLocomotion`Model`\>\""}], "}"}]}], "]"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{"Begin", "[", "\"\<`Private`\>\"", "]"}]}], "Input",
+ InitializationCell->True,
+ CellLabel->"In[31]:=",ExpressionUUID->"598f3039-ac09-4c1a-8264-246be423d86e"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Generate Gaits", "Section",ExpressionUUID->"50e89801-2b6b-410e-882a-38c4590644f5"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "assumes", " ", "we", " ", "are", " ", "starting", " ", "at", " ", "an", 
+    " ", "equilibrium", " ", "point"}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{
+     RowBox[{"Options", "[", "BLGenerateGaits", "]"}], " ", "=", " ", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"Man", " ", "\[Rule]", " ", 
+        RowBox[{"{", "}"}]}], ",", " ", 
+       RowBox[{"BLFindBifurcation", " ", "\[Rule]", " ", 
+        RowBox[{"{", "}"}]}], ",", " ", 
+       RowBox[{"\"\<T\>\"", " ", "\[Rule]", " ", "Automatic"}], ",", " ", 
+       RowBox[{"\"\<nstol\>\"", " ", "\[Rule]", " ", "Automatic"}], ",", " ", 
+       
+       RowBox[{"\"\<A\>\"", " ", "\[Rule]", " ", "Automatic"}]}], "}"}]}], 
+    ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"BLGenerateGaits", "::", "fd"}], " ", "=", " ", 
+     "\"\<Finite-difference of derivatives not yet implemented.\>\""}], ";"}],
+    "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"BLGenerateGaits", "[", 
+      RowBox[{
+      "P_", ",", " ", "t_", ",", " ", "h_", ",", " ", "N_", ",", " ", 
+       RowBox[{"opts", ":", 
+        RowBox[{"OptionsPattern", "[", "]"}]}]}], "]"}], " ", ":=", " ", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"n", ",", " ", "c", ",", " ", "T"}], "}"}], ",", 
+       "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{"NumericQ", "[", "t", "]"}], ",", "\[IndentingNewLine]", 
+          RowBox[{"(*", " ", 
+           RowBox[{
+            RowBox[{"switching", " ", "time", " ", "given"}], ",", " ", 
+            RowBox[{
+            "use", " ", "P", " ", "or", " ", "a", " ", "different", " ", 
+             RowBox[{"map", "?"}]}]}], " ", "*)"}], "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"T", " ", "=", " ", 
+            RowBox[{"OptionValue", "[", "\"\<T\>\"", "]"}]}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{"If", "[", 
+            RowBox[{
+             RowBox[{"T", " ", "===", " ", "Automatic"}], ",", " ", 
+             RowBox[{"T", " ", "=", " ", "P"}]}], "]"}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{"(*", " ", 
+            RowBox[{"find", " ", "bifurcation"}], " ", "*)"}], 
+           "\[IndentingNewLine]", 
+           RowBox[{"T", " ", "=", " ", 
+            RowBox[{"First", "@", 
+             RowBox[{"BLFindBifurcation", "[", 
+              RowBox[{"T", ",", " ", "t", ",", " ", "Automatic", ",", " ", 
+               RowBox[{"OptionValue", "[", "BLFindBifurcation", "]"}]}], 
+              "]"}]}]}], ";", "\[IndentingNewLine]", 
+           RowBox[{"c", " ", "=", " ", 
+            RowBox[{
+             RowBox[{"BLbiped", "[", 
+              RowBox[{"\"\<\[DoubleStruckC]\>\"", ",", " ", 
+               RowBox[{"BLbiped", "[", "\"\<m[0]\>\"", "]"}], ",", " ", 
+               "\"\<eq\>\""}], "]"}], "[", "T", "]"}]}], ";"}], ",", 
+          "\[IndentingNewLine]", 
+          RowBox[{"(*", " ", "else", " ", "*)"}], "\[IndentingNewLine]", 
+          RowBox[{"(*", " ", 
+           RowBox[{
+            RowBox[{"c", "[", "0", "]"}], " ", "given"}], " ", "*)"}], 
+          "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"c", " ", "=", " ", "t"}], ";"}]}], "\[IndentingNewLine]", 
+         "]"}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"n", " ", "=", " ", "HybridDynamics`Private`o"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{"n", " ", "\[Equal]", " ", "0"}], ",", " ", 
+          RowBox[{"Message", "[", 
+           RowBox[{"BLGenerateGaits", "::", "fd"}], "]"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"n", " ", "=", " ", 
+         RowBox[{"OptionValue", "@", "\"\<A\>\""}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{"n", " ", "===", " ", "Automatic"}], ",", " ", 
+          RowBox[{"n", " ", "=", " ", 
+           RowBox[{"{", "1", "}"}]}]}], "]"}], ";", "\[IndentingNewLine]", 
+        RowBox[{"n", " ", "=", " ", 
+         RowBox[{"\"\<ns\>\"", " ", "\[Rule]", " ", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"Tolerance", " ", "\[Rule]", " ", 
+             RowBox[{"OptionValue", "@", "\"\<nstol\>\""}]}], ",", " ", 
+            RowBox[{"\"\<A\>\"", " ", "\[Rule]", " ", "n"}]}], "}"}]}]}], ";",
+         "\[IndentingNewLine]", 
+        RowBox[{"Man", "[", 
+         RowBox[{"P", ",", " ", "c", ",", " ", "h", ",", " ", "N", ",", " ", 
+          RowBox[{"OptionValue", "[", "Man", "]"}], ",", " ", 
+          RowBox[{"\"\<cm0\>\"", " ", "\[Rule]", " ", 
+           RowBox[{"\"\<cmdata\>\"", " ", "\[Rule]", " ", "n"}]}]}], 
+         "]"}]}]}], "\[IndentingNewLine]", "]"}]}], ";"}]}]}]], "Input",
+ InitializationCell->True,
+ CellChangeTimes->{{3.850148858970784*^9, 3.850148859114376*^9}, {
+   3.850149202626583*^9, 3.8501492414624367`*^9}, {3.850149286976424*^9, 
+   3.85014938062689*^9}, {3.850149713803692*^9, 3.8501498058703814`*^9}, 
+   3.850150469135454*^9, 3.850164593475692*^9, {3.850164654031445*^9, 
+   3.85016470515397*^9}, {3.850198051269764*^9, 3.850198053753734*^9}, {
+   3.850198099793098*^9, 3.850198102368494*^9}, {3.8511634664437*^9, 
+   3.851163470175387*^9}, {3.851163547097024*^9, 
+   3.8511635507854967`*^9}},ExpressionUUID->"ab6eff9d-32c0-435a-a3de-\
+23b1396f86e7"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["End Package", "Section",
+ InitializationCell->
+  True,ExpressionUUID->"0e4760d5-4540-4551-bd16-65438a67dfb1"],
+
+Cell[BoxData[{
+ RowBox[{"End", "[", "]"}], "\n", 
+ RowBox[{"EndPackage", "[", "]"}]}], "Input",
+ InitializationCell->True,
+ CellLabel->"In[43]:=",ExpressionUUID->"69f3238b-ca3a-43e1-86c3-63a6d6c2cec1"]
+}, Open  ]]
+},
+AutoGeneratedPackage->Automatic,
+WindowSize->{1244, 1376},
+WindowMargins->{{0, Automatic}, {0, Automatic}},
+FrontEndVersion->"11.3 for Linux x86 (64-bit) (March 6, 2018)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 87, 0, 95, "Section",ExpressionUUID->"5c647646-69b4-42f4-a06c-08d3ec9b108f"],
+Cell[670, 24, 597, 13, 217, "Input",ExpressionUUID->"598f3039-ac09-4c1a-8264-246be423d86e",
+ InitializationCell->True]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[1304, 42, 88, 0, 95, "Section",ExpressionUUID->"50e89801-2b6b-410e-882a-38c4590644f5"],
+Cell[1395, 44, 5533, 120, 1192, "Input",ExpressionUUID->"ab6eff9d-32c0-435a-a3de-23b1396f86e7",
+ InitializationCell->True]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[6965, 169, 115, 2, 95, "Section",ExpressionUUID->"0e4760d5-4540-4551-bd16-65438a67dfb1",
+ InitializationCell->True],
+Cell[7083, 173, 201, 4, 100, "Input",ExpressionUUID->"69f3238b-ca3a-43e1-86c3-63a6d6c2cec1",
+ InitializationCell->True]
+}, Open  ]]
+}
+]
+*)
+
